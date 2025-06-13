@@ -1,23 +1,25 @@
 class Solution {
     public int singleNonDuplicate(int[] arr) {
-        HashMap<Integer , Integer> map = new HashMap<>();
+        int n = arr.length;
 
+        int low = 0;
+        int high = n-1;
 
-        for(int num : arr){
+        while(low < high){
+            int mid = low + (high - low)/2;
 
-            if(map.containsKey(num)){
-                int freq = map.get(num);
-                map.put(num , freq +1);
+            if(mid % 2 == 1){
+                mid--;
+            }
+
+            if(arr[mid] == arr[mid+1]){
+                low = mid +2;
             }
             else{
-                map.put(num , 1);
+                high = mid;
             }
         }
 
-        for(int ele : arr){
-            if(map.get(ele) == 1) return ele;
-        }
-
-        return -1;
+        return arr[low];
     }
 }
