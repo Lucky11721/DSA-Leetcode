@@ -22,7 +22,10 @@ class Solution {
         int ans = 0;
         for(int i = 0; i < n; i++){
             int minHeight = Math.min(maxLeft[i], maxRight[i]);
-            ans += Math.max(0, minHeight - height[i]);
+            int sum = minHeight - height[i];
+            if(sum > 0){
+                ans += sum;
+            }
         }
 
         return ans;
