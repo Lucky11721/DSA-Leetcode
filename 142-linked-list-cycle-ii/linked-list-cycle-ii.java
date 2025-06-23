@@ -11,29 +11,19 @@
  */
 public class Solution {
     public ListNode detectCycle(ListNode head) {
-        if (head == null || head.next == null) return null;
+        HashSet<ListNode> set = new HashSet<>();
 
-        ListNode slow = head;
-        ListNode fast = head;
+        ListNode curr = head;
+        while(curr != null){
 
-        // Step 1: Detect cycle using Floyd's algorithm
-        while (fast != null && fast.next != null) {
-            slow = slow.next;
-            fast = fast.next.next;
-
-            // Cycle detected
-            if (slow == fast) {
-                // Step 2: Find the entry point
-                ListNode entry = head;
-                while (entry != slow) {
-                    entry = entry.next;
-                    slow = slow.next;
-                }
-                return entry;
+            if(set.contains(curr)){
+                return curr;
             }
+            set.add(curr);
+
+            curr = curr.next;
         }
 
-        // No cycle found
         return null;
     }
 }
