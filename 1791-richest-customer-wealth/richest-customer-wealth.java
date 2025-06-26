@@ -1,23 +1,18 @@
 class Solution {
-    public int maximumWealth(int[][] accounts) {
-        PriorityQueue<Integer> que = new PriorityQueue<>(Collections.reverseOrder()); 
-        int n = accounts.length;
+    public int maximumWealth(int[][] arr) {
+        int n = arr.length;
         
-        for(int i = 0 ; i < n ; i++){
-                 int sums = sum(accounts[i]);
-                 que.add(sums);
-            
+        int ans[] = new int[n];
 
+        for(int  i = 0 ;i < n  ;i++){
+            int sum = 0 ;
+            for(int j = 0; j  < arr[i].length ; j++){
+                sum = sum + arr[i][j];
+            }
+            ans[i] = sum;
         }
-         return que.poll();
-    }
+        Arrays.sort(ans);
 
-    public int sum(int[] arr){
-             int ans = 0;
-             for(int i = 0 ; i < arr.length; i++){
-               ans += arr[i];
-             }
-
-             return ans;
+        return ans[n-1];
     }
 }
