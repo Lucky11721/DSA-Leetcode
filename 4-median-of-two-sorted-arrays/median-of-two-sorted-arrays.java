@@ -7,10 +7,6 @@ class Solution {
 
         int ans[] = new int[m+n];
         merge(nums1 , nums2 , ans);
-        int prefixsum = 0;
-        for(int i =0 ; i < ans.length; i++){
-            prefixsum += ans[i];
-        }
        if((m+n) % 2 == 1){
         return (double)ans[(m+n)/2];
        }
