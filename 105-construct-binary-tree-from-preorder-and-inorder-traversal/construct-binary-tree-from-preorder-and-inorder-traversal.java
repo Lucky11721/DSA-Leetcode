@@ -31,7 +31,7 @@ class Solution {
         }
      }
         int lst_size = root_index - inlow;
-       root.left = construct(pre  , in , prelow + 1 ,prelow + lst_size + 1 , inlow , root_index -1);
+       root.left = construct(pre  , in , prelow + 1 ,prelow + lst_size  , inlow , root_index -1);
         root.right = construct(pre , in ,prelow + lst_size + 1, prehigh , root_index +1 , inhigh);
      return root;
     }
