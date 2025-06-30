@@ -1,25 +1,32 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
 class Solution {
     public int maxPathSum(TreeNode root) {
-        int[] maxSum = new int[1];
-        maxSum[0] = Integer.MIN_VALUE;
-        maxGain(root, maxSum);
-        return maxSum[0];
+        int[] ans = new int[1];
+         ans[0] = Integer.MIN_VALUE;
+        maxSum(root , ans);
+        return ans[0];
     }
+    public int maxSum(TreeNode root , int[] ans){
+        if(root == null) return 0;
+       int leftsum = Math.max( 0 , maxSum(root.left , ans));
+       int rightsum = Math.max(0 , maxSum(root.right , ans));
 
-    private int maxGain(TreeNode node, int[] maxSum) {
-        if (node == null) return 0;
+       ans[0] = Math.max(ans[0] , root.val + leftsum + rightsum);
 
-        // Only take positive contributions from left/right subtrees
-        int leftGain = Math.max(0, maxGain(node.left, maxSum));
-        int rightGain = Math.max(0, maxGain(node.right, maxSum));
-
-        // Path including both children and the current node
-        int currentPath = node.val + leftGain + rightGain;
-
-        // Update max path sum
-        maxSum[0] = Math.max(maxSum[0], currentPath);
-
-        // Return max gain including one child to the parent call
-        return node.val + Math.max(leftGain, rightGain);
+       return root.val + Math.max(leftsum , rightsum);
     }
 }
