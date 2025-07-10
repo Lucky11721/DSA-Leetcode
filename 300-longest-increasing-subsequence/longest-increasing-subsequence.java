@@ -16,12 +16,13 @@ class Solution {
         }
         if(dp[preIndex + 1][currIndex] != -1) return dp[preIndex + 1][currIndex];
 
-        int skip = lis(arr , preIndex , currIndex + 1 , dp);
-
         int pick = 0;
         if(preIndex == -1 || arr[currIndex] > arr[preIndex]){
             pick = 1+  lis(arr , currIndex , currIndex + 1 ,dp);
         } 
+        
+        int skip = lis(arr , preIndex , currIndex + 1 , dp);
+
 
         dp[preIndex + 1][currIndex] = Math.max(pick,skip);
 
