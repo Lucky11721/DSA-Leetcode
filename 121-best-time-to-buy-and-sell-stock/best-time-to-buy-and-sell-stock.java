@@ -1,18 +1,17 @@
 class Solution {
     public int maxProfit(int[] arr) {
-        int n = arr.length;
+        return helper(arr, 0, Integer.MAX_VALUE, 0);
+    }
 
-        int maxProfit = 0;
-        int minprice = Integer.MAX_VALUE;
-        for(int i = 0; i < n ; i++){
-            if(arr[i] < minprice){
-                minprice = arr[i];
-            }
-            else{
-                maxProfit = Math.max(maxProfit , arr[i] - minprice);
-            }
+    public int helper(int[] arr, int index, int minprice, int maxProfit) {
+        if (index == arr.length) return maxProfit;
+
+        if (arr[index] < minprice) {
+            minprice = arr[index];
+        } else {
+            maxProfit = Math.max(maxProfit, arr[index] - minprice);
         }
 
-        return maxProfit;
+        return helper(arr, index + 1, minprice, maxProfit);
     }
 }
