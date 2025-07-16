@@ -1,31 +1,31 @@
 class Solution {
-    public int maxProfit(int[] arr) {
-        
-        int n = arr.length;
+    public int maxProfit(int[] prices) {
+         int n = prices.length;
 
-        int[] left = new int[n];
-
-       int minprice = arr[0];
-        for(int i = 1 ;i < n  ; i++){
-          minprice = Math.min(minprice , arr[i] );
-          left[i] = Math.max(left[i-1] ,  arr[i] - minprice);
+        int[][][] dp = new int[n + 1][2][2+1];
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j < 2; j++) {
+                for (int l = 0; l <= 2; l++) {
+                    dp[i][j][l] = -1;
+                }
+            }
         }
+        return helper(prices, 0, 1, 2 , dp);
+    }
 
-        int right[] = new int[n];
+    public int helper(int[] arr, int index, int buy, int cap ,  int[][][] dp) {
 
-        int maxprice = arr[n-1];
+        if (index == arr.length || cap == 0)
+            return 0;
 
-        for(int i = n -2 ; i >= 0 ; i--){
-            maxprice = Math.max(maxprice , arr[i]);
-            right[i] = Math.max(right[i+1] , maxprice - arr[i]);
+        if(dp[index][buy][cap] != -1) return dp[index][buy][cap];
+        if (buy == 1) {
+
+            return dp[index][buy][cap] =  Math.max(-arr[index] + helper(arr, index + 1, 0, cap , dp), 0 +
+                    helper(arr, index + 1, 1, cap , dp));
+        } else {
+            return dp[index][buy][cap] =  Math.max(arr[index] + helper(arr, index + 1, 1, cap - 1 , dp), 0 +
+                    helper(arr, index + 1, 0, cap , dp));
         }
-
-        int ans = 0;
-
-        for(int i = 0 ; i < n ; i++){
-            ans = Math.max(ans , left[i] + right[i]);
-        }
-
-        return ans;
     }
 }
