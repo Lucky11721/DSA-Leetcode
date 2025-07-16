@@ -1,32 +1,31 @@
 class Solution {
     public int maxProfit(int k, int[] prices) {
         int n = prices.length;
-        // dp[i][buy][k] → max profit on day i, with buy/sell flag and k transactions left
-        Integer[][][] dp = new Integer[n][2][k + 1];
-        return helper(0, 1, k, prices, dp);
+
+        int[][][] dp = new int[n + 1][2][k + 1];
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j < 2; j++) {
+                for (int l = 0; l <= k; l++) {
+                    dp[i][j][l] = -1;
+                }
+            }
+        }
+        return helper(prices, 0, 1, k , dp);
     }
 
-    public int helper(int index, int canBuy, int transactionsLeft, int[] prices, Integer[][][] dp) {
-        if (index == prices.length || transactionsLeft == 0) return 0;
+    public int helper(int[] arr, int index, int buy, int cap ,  int[][][] dp) {
 
-        if (dp[index][canBuy][transactionsLeft] != null) return dp[index][canBuy][transactionsLeft];
+        if (index == arr.length || cap == 0)
+            return 0;
 
-        int profit = 0;
+        if(dp[index][buy][cap] != -1) return dp[index][buy][cap];
+        if (buy == 1) {
 
-        if (canBuy == 1) {
-            // Option 1: Buy
-            int buy = -prices[index] + helper(index + 1, 0, transactionsLeft, prices, dp);
-            // Option 2: Skip
-            int skip = helper(index + 1, 1, transactionsLeft, prices, dp);
-            profit = Math.max(buy, skip);
+            return dp[index][buy][cap] =  Math.max(-arr[index] + helper(arr, index + 1, 0, cap , dp), 0 +
+                    helper(arr, index + 1, 1, cap , dp));
         } else {
-            // Option 1: Sell
-            int sell = prices[index] + helper(index + 1, 1, transactionsLeft - 1, prices, dp);
-            // Option 2: Skip
-            int skip = helper(index + 1, 0, transactionsLeft, prices, dp);
-            profit = Math.max(sell, skip);
+            return dp[index][buy][cap] =  Math.max(arr[index] + helper(arr, index + 1, 1, cap - 1 , dp), 0 +
+                    helper(arr, index + 1, 0, cap , dp));
         }
-
-        return dp[index][canBuy][transactionsLeft] = profit;
     }
 }
