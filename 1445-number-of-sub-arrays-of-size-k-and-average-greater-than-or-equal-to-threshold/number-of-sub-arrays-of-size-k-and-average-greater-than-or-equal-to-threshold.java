@@ -1,21 +1,26 @@
 class Solution {
     public int numOfSubarrays(int[] arr, int k, int threshold) {
-        
-
         int n = arr.length;
-
-        int count = 0;
-
-        for(int i = 0; i <= n- k ; i++){
-            int sum = 0;
-
-            for(int  j = i ; j < i+k ; j++){
-                sum += arr[j];
-            }
-            if(sum / k >= threshold){
-                count++;
-            }
+          int count = 0;
+        int left = 0;
+        int right = k-1;
+       int sum = 0;
+        for(int  i = 0 ;i <= right ; i++){
+          sum += arr[i];
         }
-        return count;
+        left++;
+        right++;
+
+        if(sum / k >= threshold) count++;
+    
+
+    while(right < n){
+        sum = sum - arr[left - 1] + arr[right];
+        if (sum / k >=  threshold)
+            count++;
+        left++;
+        right++;
     }
-}
+
+    return count;
+}}
