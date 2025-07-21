@@ -1,38 +1,41 @@
 class Solution {
-    public int totalFruit(int[] arr) {
-        int n = arr.length;
-         HashMap<Integer , Integer> map = new HashMap<>();
-
-         int i = 0;
-
-         int  j =0;
-
-         int ans = 0;
-
-         while(j < n){
-
-            if(map.containsKey(arr[j])){
-                int freq = map.get(arr[j]);
-                map.put(arr[j] , freq+1);
-            }
-            else{
-                map.put(arr[j] , 1);
-            }
-
-            while(map.size() > 2){
-                int ele = arr[i];
-
-                map.put(ele , map.get(ele) - 1);
-                if(map.get(ele) == 0){
-                    map.remove(ele);
+    
+    public static int totalFruit(int[] fruits) {
+        int max = 0;
+        int type1 = -1, type2 = -1;
+        int count1 = 0, count2 = 0;
+        int lead = -1, leadIndex = -1;
+        for (int i = 0; i < fruits.length; i++) {
+            if (type1 == -1 || type1 == fruits[i]) {
+                type1 = fruits[i];
+                count1++;
+                if (lead != type1) {
+                    lead = type1;
+                    leadIndex = i;
                 }
-
-                i++;
+            } else if (type2 == -1 || type2 == fruits[i]) {
+                type2 = fruits[i];
+                count2++;
+                if (lead != type2) {
+                    lead = type2;
+                    leadIndex = i;
+                }
+            } else {
+                max = Math.max(max, count1+count2);
+                if (lead == type1) {
+                    count1 = i-leadIndex;
+                    type2 = fruits[i];
+                    count2 = 1;
+                } else {
+                    count2 = i-leadIndex;
+                    type1 = fruits[i];
+                    count1 = 1;
+                }
+                lead = fruits[i];
+                leadIndex = i;
             }
+        }
 
-            ans = Math.max(ans , j - i +1);
-            j++;
-         }
-         return ans;
+        return Math.max(max, count1+count2);
     }
 }
