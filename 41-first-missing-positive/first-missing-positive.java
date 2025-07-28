@@ -1,17 +1,21 @@
-import java.util.Arrays;
-
 class Solution {
-    public int firstMissingPositive(int[] nums) {
-        Arrays.sort(nums); // Sort the array
+    public int firstMissingPositive(int[] arr) {
 
-        int smallestPositive = 1;
-
-        for (int num : nums) {
-            if (num == smallestPositive) {
-                smallestPositive++;
-            }
+        int n = arr.length;
+        HashSet<Integer> set = new HashSet<>();
+        for (int ele : arr) {
+            set.add(ele);
         }
 
-        return smallestPositive;
+        int smallest = 1;
+        int i = 0;
+        while (i < n) {
+            if (set.contains(smallest)) {
+                smallest++;
+            }
+            i++;
+        }
+        return smallest;
+
     }
 }
