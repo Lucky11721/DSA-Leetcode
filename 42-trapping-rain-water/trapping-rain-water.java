@@ -1,42 +1,38 @@
 class Solution {
     public int trap(int[] arr) {
-
         int n = arr.length;
-        int curr_leftmax = 0;
-        int[] leftmax = new int[n];
 
-        for (int i = 0; i < n; i++) {
-            leftmax[i] = curr_leftmax;
+        int i = 0;
+        int j = n - 1;
 
-            if (arr[i] > curr_leftmax) {
-                curr_leftmax = arr[i];
+        int maxLeft = arr[0];
+        int maxRight = arr[n - 1];
+
+        int ans = 0;
+        while (i < j) {
+            int trap = 0;
+            if (maxLeft <= maxRight) {
+                i++;
+                trap = maxLeft - arr[i];
+                if (maxLeft < arr[i]) {
+                    maxLeft = arr[i];
+                }
+                if (trap > 0) {
+                    ans += trap;
+                } 
+                }
+                else {
+                    j--;
+                    trap = maxRight - arr[j];
+                    if (maxRight < arr[j]) {
+                        maxRight = arr[j];
+                    }
+                    if (trap > 0) {
+                        ans += trap;
+                    }
+                }
             }
-        }
-
-        int curr_rightmax = 0;
-
-        int[] rightmax = new int[n];
-        for (int i = n - 1; i >= 0; i--) {
-            rightmax[i] = curr_rightmax;
-            if (arr[i] > curr_rightmax) {
-                curr_rightmax = arr[i];
-            }
-        }
-
-        int[] minleft_right = new int[n];
-
-        for (int i = 0; i < n; i++) {
-            minleft_right[i] = Math.min(leftmax[i], rightmax[i]);
-        }
-
-        int result = 0;
-
-        for (int i = 0; i < n; i++) {
-            if (minleft_right[i] - arr[i] > 0) {
-                result += (minleft_right[i] - arr[i]);
-            }
-        }
-        return result;
-
+        
+        return ans;
     }
 }
