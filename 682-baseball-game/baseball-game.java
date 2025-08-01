@@ -17,10 +17,13 @@ class Solution {
                 } 
             }
             else if(arr[i].equals("+")){
-                if (st.size() >= 2) {
-                    int last = st.peek();
-                    int secondLast = st.get(st.size() - 2);
-                    st.push(last + secondLast);
+                if(st.size()>=2){
+                  int ele1 = st.pop();
+                  int ele2 = st.pop();
+                  int sum = ele1 + ele2;
+                   st.push(ele2);
+                  st.push(ele1);
+                  st.push(sum);
                 }
             }
             else{
