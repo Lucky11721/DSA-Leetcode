@@ -19,7 +19,8 @@ class Solution {
             int mid = left + (right - left) / 2;
             long curr_hour = 0;
             for (int i = 0; i < n; i++) {
-                curr_hour += (arr[i] + mid -1)/mid;
+                double div = (double)arr[i]/mid;
+                curr_hour += Math.ceil(div);
             }
             if (curr_hour <= h) {
                 ans = mid;
