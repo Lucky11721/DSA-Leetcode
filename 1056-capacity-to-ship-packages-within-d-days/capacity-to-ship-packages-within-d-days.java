@@ -33,11 +33,11 @@ class Solution {
             
             if(sum > 0 ) curr_days += 1;
 
-            if(curr_days <= days && flag != true){
+            if(curr_days <= days && flag == false){
                 capacity = mid;
                 right = mid -1;
             }
-            else{
+            else if(curr_days > days || flag == true){
                 left = mid +1;
             }
         }
