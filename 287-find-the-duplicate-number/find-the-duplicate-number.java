@@ -1,24 +1,20 @@
 class Solution {
     public int findDuplicate(int[] arr) {
-        int n = arr.length;
+        int slow = 0;
+        int fast = 0;
 
-        HashMap<Integer,Integer> map = new HashMap<>();
-
-        for(int i = 0 ; i <  n  ;i++){
-            int ele = arr[i];
-
-            if(map.containsKey(ele)){
-                int freq = map.get(ele);
-                map.put(ele , freq+1);
-            }
-            else{
-                map.put(ele ,1);
-            }
-
-              if(map.get(ele) > 1){
-                return ele;
-            }
+        while(true){
+            slow = arr[slow];
+            fast = arr[arr[fast]];
+            if(slow == fast ) break;
         }
-        return -1;
+
+        int slow2 = 0;
+
+        while(true){
+            slow = arr[slow];
+            slow2 = arr[slow2];
+            if(slow == slow2) return slow2;
+        }
     }
 }
