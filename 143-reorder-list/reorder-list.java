@@ -1,54 +1,56 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
 class Solution {
     public void reorderList(ListNode head) {
-        if (head == null || head.next == null) return;
+        
 
-        // 1️⃣ Count nodes
-        int n = 0;
-        ListNode temp = head;
-        while (temp != null) {
-            n++;
-            temp = temp.next;
+        ListNode slow = head;
+        ListNode fast = head.next;
+
+        while(fast!= null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
         }
+        
+        ListNode firsthalf = head;
+        ListNode secondhalf = slow.next;
+        slow.next = null;
+       secondhalf =  reverse(secondhalf);
+        ListNode l1 = firsthalf;
+        ListNode l2 = secondhalf;
 
-        // 2️⃣ Move temp pointer to the middle
-        int mid = n / 2;
-        ListNode firstHalfEnd = head;
-        for (int i = 1; i < mid; i++) {
-            firstHalfEnd = firstHalfEnd.next;
+        while( l1 != null && l2 != null){
+   ListNode temp1 = l1.next;
+   ListNode temp2 = l2.next;
+
+   l1.next = l2;
+   l2.next = temp1;
+   l1 = temp1;
+   l2 = temp2;
+   
         }
-
-        // 3️⃣ Split list into two halves
-        ListNode secondHalf = firstHalfEnd.next;
-        firstHalfEnd.next = null;
-
-        // 4️⃣ Reverse second half
-        secondHalf = reverseList(secondHalf);
-
-        // 5️⃣ Merge halves
-        ListNode p1 = head;
-        ListNode p2 = secondHalf;
-        while (p1 != null && p2 != null) {
-            ListNode next1 = p1.next;
-            ListNode next2 = p2.next;
-
-            p1.next = p2;
-            if (next1 == null) break; // Handles odd length
-            p2.next = next1;
-
-            p1 = next1;
-            p2 = next2;
-        }
+   
     }
 
-    // Helper: reverse a linked list
-    private ListNode reverseList(ListNode head) {
-        ListNode prev = null;
-        while (head != null) {
-            ListNode next = head.next;
-            head.next = prev;
-            prev = head;
-            head = next;
+    public ListNode reverse(ListNode head){
+        ListNode curr =head;
+        ListNode pre = null;
+        ListNode nextnode = head;
+
+        while(curr != null && nextnode != null){
+            nextnode = curr.next;
+            curr.next =pre;
+            pre = curr;
+            curr = nextnode;
         }
-        return prev;
+        return pre;
     }
 }
