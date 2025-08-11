@@ -10,47 +10,52 @@
  */
 class Solution {
     public ListNode reverseBetween(ListNode head, int left, int right) {
-        
-        ListNode dummy = new ListNode(-1);
-        dummy.next = head;
-        ListNode left_temp = dummy;
 
-        int l =1;
-        while(l < left){
-           left_temp = left_temp.next;
-           l++;
+        ListNode temp = head;
+        ListNode a = null;
+        ListNode b = null;
+        ListNode c = null;
+        ListNode d = null;
+
+        int position =1;
+        while(temp != null){
+            if(position == left -1){
+                a = temp;
+            }
+            if(position == left){
+                b = temp;
+            }
+            if(position == right){
+                c = temp;
+            }
+            if(position == right+1){
+                d = temp;
+            }
+
+            temp = temp.next;
+            position++;
         }
 
-
-        ListNode right_temp = dummy;
-        int r = 0;
-        while(r < right ){
-            right_temp = right_temp.next;
-            r++;
-        }
-        ListNode start = left_temp.next;
-        left_temp.next = null;
-        ListNode remaining = right_temp.next;
-        right_temp.next = null;
-
-        ListNode curr = start;
-        ListNode nextnode = start;
-        ListNode pre = null;
-
-        while(curr != null && nextnode != null){
-            nextnode = curr.next;
+        if(a != null) a.next = null;
+        if(c != null) c.next = null;
+       
+         temp = b;
+        ListNode curr = temp;
+        ListNode pre  = null;
+        while(curr != null){
+            ListNode next = curr.next;
             curr.next = pre;
             pre = curr;
-            curr = nextnode;
+            curr = next;
         }
 
-        left_temp.next = pre;
-        ListNode temp = dummy;
-        while(temp.next != null){
-            temp = temp.next;
+      if(a!=null) a.next = c;
+       b.next =d;
+       if(a==null){
+            return c;
         }
-        temp.next = remaining;
 
-        return dummy.next;
+        return head;
+
     }
 }
