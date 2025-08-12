@@ -1,51 +1,53 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
 class Solution {
     public ListNode reverseKGroup(ListNode head, int k) {
-        ListNode curr = head;
-        ListNode newhead = null;
-        ListNode tail = null;
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        ListNode groupprev = dummy;
 
-        while (curr != null) {
-            // Step 1: Check if there are at least k nodes left
-            ListNode check = curr;
-            int checkCount = 0;
-            while (check != null && checkCount < k) {
-                check = check.next;
-                checkCount++;
-            }
-
-            // If less than k nodes remain, attach the rest as-is and break
-            if (checkCount < k) {
-                if (tail != null) {
-                    tail.next = curr;
-                }
+        while(true){
+              ListNode kthNode = getkth(groupprev , k);
+              if(kthNode == null){
                 break;
-            }
+              }
 
-            // Step 2: Reverse k nodes
-            ListNode grouphead = curr;
-            int count = 0;
-            ListNode prev = null;
+              ListNode grouphead = groupprev.next;
+              ListNode groupnext = kthNode.next;
+              ListNode curr = grouphead;
+              ListNode pre = kthNode.next;
+              while(curr != groupnext){
+                  ListNode nextNode = curr.next;
+                  curr.next = pre;
+                  pre = curr;
+                  curr = nextNode;
+              }
 
-            while (curr != null && count < k) {
-                ListNode next = curr.next;
-                curr.next = prev;
-                prev = curr;
-                curr = next;
-                count++;
-            }
+             ListNode temp = groupprev.next;
+             groupprev.next = kthNode;
+             groupprev = temp;
 
-            // Step 3: Connect reversed group
-            if (newhead == null) {
-                newhead = prev;
-            }
 
-            if (tail != null) {
-                tail.next = prev;
-            }
-
-            tail = grouphead;
         }
-
-        return newhead;
+        return dummy.next;
     }
+
+    public ListNode getkth(ListNode head , int k){
+         ListNode curr = head;
+
+         while(curr != null && k > 0){
+            curr = curr.next;
+            k--;
+         }
+         return curr;
+    }
+
 }
