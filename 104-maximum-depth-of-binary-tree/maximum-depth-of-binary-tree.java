@@ -17,13 +17,10 @@ class Solution {
     public int maxDepth(TreeNode root) {
         return level(root);
     }
-    public int level(TreeNode root){
+   public int level(TreeNode root){
         if(root == null) return 0;
-       
-       int left =  level(root.left);
-       int right = level(root.right);
 
-       return 1+ Math.max(left , right);
+        return 1 + Math.max(level(root.left) , level(root.right));
 
     }
 }
