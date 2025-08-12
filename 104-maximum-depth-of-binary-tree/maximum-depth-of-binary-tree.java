@@ -20,10 +20,10 @@ class Solution {
     public int level(TreeNode root){
         if(root == null) return 0;
        
-       int left = 1 + level(root.left);
-       int right = 1 + level(root.right);
+       int left =  level(root.left);
+       int right = level(root.right);
 
-       return Math.max(left , right);
+       return 1+ Math.max(left , right);
 
     }
 }
