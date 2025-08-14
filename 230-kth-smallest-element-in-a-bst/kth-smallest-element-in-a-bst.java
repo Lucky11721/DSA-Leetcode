@@ -14,27 +14,21 @@
  * }
  */
 class Solution {
-    int ans = 0;
-    int count = 0;
+    List<Integer> list;
     public int kthSmallest(TreeNode root, int k) {
-        
-    
-       sort(root, k );
-       
-       
-      return ans;
+         list = new ArrayList<>();
+         helper(root);
+        Collections.sort(list);
+        System.out.println(list);
+        return list.get(k-1);
 
     }
-    public void sort(TreeNode root , int k){
-        if(root == null){
-            return;
-        }
-        sort(root.left,k);
-        count++;
-       if(count == k) {
-ans = root.val;
-return;
-       }
-        sort(root.right, k );
+    public void helper(TreeNode root){
+        if(root == null) return;
+
+        helper(root.left);
+        list.add(root.val);
+        helper(root.right);
+
     }
 }
