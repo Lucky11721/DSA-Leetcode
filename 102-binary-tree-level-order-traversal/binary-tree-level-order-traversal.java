@@ -15,36 +15,30 @@
  */
 class Solution {
     List<List<Integer>> ans;
-
     public List<List<Integer>> levelOrder(TreeNode root) {
-        ans = new ArrayList<>();
-        if (root == null) return ans;
-
+        if(root == null) return new ArrayList<>();
+        ans =  new ArrayList<>();
         bfs(root);
         return ans;
     }
-
-    public void bfs(TreeNode root) {
-        Queue<TreeNode> que = new LinkedList<>();
-        que.add(root);
-
-        while (!que.isEmpty()) {
-            int size = que.size(); // Number of nodes in current level
-            List<Integer> arr = new ArrayList<>();
-
-            for (int i = 0; i < size; i++) {
-                TreeNode current = que.poll();
-                arr.add(current.val);
-
-                if (current.left != null) {
-                    que.add(current.left);
+    public void bfs(TreeNode root){
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while(queue.isEmpty() == false){
+            List<Integer> list= new ArrayList<>();
+            int size = queue.size();
+            for(int i = 0 ; i < size; i++){
+                TreeNode curr = queue.remove();
+                list.add(curr.val);
+                if(curr.left != null){
+                    queue.add(curr.left);
                 }
-                if (current.right != null) {
-                    que.add(current.right);
+                if(curr.right != null){
+                    queue.add(curr.right);
                 }
             }
-
-            ans.add(arr); // Add current level list to answer
+            ans.add(list);
+           
         }
     }
 }
