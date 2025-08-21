@@ -1,20 +1,20 @@
 class Solution {
-    public int rob(int[] arr) {
-        int[]  dp  = new int[arr.length *2];
-        Arrays.fill(dp,-1);
-        int max0 = maxrob(arr , 0 , dp);
-        int max1 = maxrob(arr ,1 , dp);
+    public int rob(int[] nums) {
 
-        return Math.max(max0 , max1);
+        int[] dp = new int[nums.length+1];
+        Arrays.fill(dp , -1);
+        int start0 = helper(nums , 0 , nums.length,dp);
+        int start1 = helper(nums , 1 , nums.length,dp);
+
+        return Math.max(start0 , start1);
     }
 
-    public int maxrob(int[] arr , int index , int[] dp){
-    if(index == arr.length || index == arr.length +1 ||  index == arr.length +2) return 0;
-    if(dp[index] != -1) return dp[index];
+    public int helper(int[] arr , int index , int n , int[] dp){
+        if(index == n || index == n+1 || index == n+2) return 0;
+        if(dp[index] != -1) return dp[index];
 
-    int min = arr[index] + Math.max(maxrob(arr , index + 2 , dp) , maxrob(arr , index+3 , dp));
-    dp[index] = min;
-    return min;
+        dp[index] = arr[index] + Math.max( helper(arr , index+2 , n , dp) , helper(arr,index+3 , n ,dp));
 
+        return dp[index];
     }
 }
