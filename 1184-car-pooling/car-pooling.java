@@ -1,19 +1,19 @@
-public class Solution {
-    public boolean carPooling(int[][] trips, int capacity) {
-        Arrays.sort(trips, (a, b) -> Integer.compare(a[1], b[1]));
+class Solution {
+    public boolean carPooling(int[][] arr, int capacity) {
+        int n = arr.length;
+        Arrays.sort(arr,(a,b)->Integer.compare(a[1],b[1]));
 
-        for (int i = 0; i < trips.length; i++) {
-            int curPass = trips[i][0];
-            for (int j = 0; j < i; j++) {
-                if (trips[j][2] > trips[i][1]) {
-                    curPass += trips[j][0];
+        for(int i = 0 ; i < n ; i++){
+            int curr_passenger = arr[i][0];
+            for(int j  = 0 ; j <  i ; j++){
+                if(arr[j][2] > arr[i][1]){
+                    curr_passenger += arr[j][0]; 
                 }
             }
-            if (curPass > capacity) {
+            if(curr_passenger > capacity){
                 return false;
             }
         }
-
         return true;
     }
 }
