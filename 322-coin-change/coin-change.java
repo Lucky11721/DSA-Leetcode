@@ -2,29 +2,25 @@ import java.util.Arrays;
 
 class Solution {
     public int coinChange(int[] coins, int amount) {
-        int[][] dp = new int[coins.length + 1][amount + 1];
-        for (int i = 0; i <= coins.length; i++) {
-            Arrays.fill(dp[i], -1);
-        }
-
-        int finalAns = helper(coins, 0, amount, dp);
-        return finalAns == Integer.MAX_VALUE ? -1 : finalAns;
+        int[] dp = new int[amount + 1];
+        Arrays.fill(dp, -2); // mark uncomputed
+        int ans = helper(coins, amount, dp);
+        return ans == Integer.MAX_VALUE ? -1 : ans;
     }
 
-    public int helper(int[] arr, int index, int amount, int[][] dp) {
-        if (amount == 0) return 0; // No more coins needed
-        if (amount < 0 || index == arr.length) return Integer.MAX_VALUE;
+    public int helper(int[] coins, int amount, int[] dp) {
+        if (amount == 0) return 0;
+        if (amount < 0) return Integer.MAX_VALUE;
+        if (dp[amount] != -2) return dp[amount];
 
-        if (dp[index][amount] != -1) return dp[index][amount];
-
-        // Include current coin
-        int include = helper(arr, index, amount - arr[index], dp);
-        if (include != Integer.MAX_VALUE) include += 1; // count this coin only if valid path
-
-        // Exclude current coin
-        int exclude = helper(arr, index + 1, amount, dp);
-
-        dp[index][amount] = Math.min(include, exclude);
-        return dp[index][amount];
+        int min = Integer.MAX_VALUE;
+        for (int coin : coins) {
+            int res = helper(coins, amount - coin, dp);
+            if (res != Integer.MAX_VALUE) {
+                min = Math.min(min, res + 1);
+            }
+        }
+        dp[amount] = min;
+        return dp[amount];
     }
 }
