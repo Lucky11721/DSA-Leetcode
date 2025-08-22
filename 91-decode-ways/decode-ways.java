@@ -1,27 +1,26 @@
 class Solution {
     public int numDecodings(String s) {
+     
         char[] ch = s.toCharArray();
-        int[] dp = new int[ch.length +1];
+        int[] dp = new int[ch.length+1];
         Arrays.fill(dp , -1);
-        return helper(ch, 0 , dp);
+        return helper(ch , 0 , dp);
     }
+    public int helper(char[] arr , int i , int[] dp){
+        if(i == arr.length) return 1;
 
-    public int helper(char[] ch, int index ,int[] dp) {
-        if (index == ch.length)
-            return 1;
+        if(arr[i] == '0') return 0;
+       if(dp[i] != -1) return dp[i];
 
-        if (ch[index] == '0')
-            return 0;
-       if(dp[index] != -1) return dp[index];
-        int take1 = helper(ch, index + 1 , dp);
-        int take2 = 0;
-        if (index + 1 < ch.length) {
-            if (ch[index] == '1' || ch[index] == '2' && ch[index + 1] <= '6') {
-                take2 = helper(ch, index + 2 , dp);
+        int take1char = helper(arr , i+1 ,dp);
+        int take2char = 0;
+
+        if(i+1 < arr.length){
+            if(arr[i] == '1' && arr[i+1] <= '9' || arr[i] == '2' && arr[i+1] <= '6'){
+                take2char += helper(arr , i+2 ,dp);
             }
-
         }
-
-        return dp[index] = take1 + take2;
+        dp[i] = take1char + take2char;
+        return dp[i];
     }
 }
