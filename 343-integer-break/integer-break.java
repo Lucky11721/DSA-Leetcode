@@ -1,23 +1,20 @@
 class Solution {
     public int integerBreak(int n) {
-         if(n == 2) return 1;
-         if(n == 3) return 2;
-         int rem = n % 3;
-         int divide = n /3;
-        System.out.println(divide);
-        System.out.println(rem);
-         int ans = 1;
-         if(rem == 0){
-            return (int)Math.pow(3 , divide);
-         }
+        int[] dp = new int[n+1];
+        Arrays.fill(dp,-1);
+        return helper(n , dp);
+    }
 
-         if(rem == 1){
-            return (int)Math.pow(3 , divide - 1) *4;
-         }
-         else if(rem == 2){
-            return (int)Math.pow(3 , divide) *2;
-         }
+    public int helper(int n , int[] dp){
+        if(n == 1) return 1;
+       if(dp[n] != -1) return dp[n];
+        int res = 0;
 
-         return -1;
+        for(int i = 1 ; i < n ; i++){
+            int curr_ans = i * Math.max(n-i , helper(n-i ,dp));
+            res = Math.max(curr_ans , res);
+        }
+
+        return dp[n] = res;
     }
 }
