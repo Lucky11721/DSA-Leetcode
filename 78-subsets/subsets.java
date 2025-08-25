@@ -1,0 +1,24 @@
+class Solution {
+    List<List<Integer>> ans;
+    public List<List<Integer>> subsets(int[] nums) {
+        ans  = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+
+        helper(nums , 0 , list);
+
+        return ans;
+        
+    }
+
+    public void helper(int[] arr , int index , List<Integer> list){
+        if(index >= arr.length){
+            ans.add(new ArrayList<>(list));
+            return;
+        }
+        list.add(arr[index]);
+        helper(arr , index + 1 , list);
+        list.remove(list.size() -1);
+
+        helper(arr , index+1 , list);
+    }
+}
