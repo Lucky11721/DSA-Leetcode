@@ -12,7 +12,7 @@ class Solution {
             ans.add(new ArrayList<>(list));
             return;
         }
-        if(num > n) return;
+         if(num > n) return;
 
         list.add(num);
         helper(n , k , num +1 , list);
