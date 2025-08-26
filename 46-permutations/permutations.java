@@ -14,10 +14,9 @@ class Solution {List<List<Integer>> ans;
 
         for(int i = 0 ; i < arr.length ; i++){
                     if(list.contains(arr[i]) == false){
-                        list.add(arr[i]);
-                        
-                    helper(arr,list);
-                    list.remove(list.size() - 1);
+                        list.add(arr[i]);  // Do something kuch kara
+                    helper(arr,list); // explore kara
+                    list.remove(list.size() - 1); // fir undo kr diya 
                     }
         }
     }
