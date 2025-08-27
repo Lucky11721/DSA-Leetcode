@@ -16,7 +16,11 @@ class Solution {
         list.add(arr[index]);
         helper(arr , index +1 , list);
         list.remove(list.size()-1);
-        helper(arr, index+1 , list);
+        int next = index+1;
+        while(next < arr.length && arr[next] == arr[next-1]){
+            next++;
+        }
+        helper(arr, next , list);
         
     }
 }
