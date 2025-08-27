@@ -13,10 +13,10 @@ class Solution {
             if(ans.contains(list) == false) ans.add(new ArrayList<>(list));
             return;
         }
-helper(arr, index+1 , list);
         list.add(arr[index]);
         helper(arr , index +1 , list);
         list.remove(list.size()-1);
+        helper(arr, index+1 , list);
         
     }
 }
