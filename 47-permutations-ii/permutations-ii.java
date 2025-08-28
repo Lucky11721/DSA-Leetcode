@@ -1,27 +1,34 @@
-public class Solution {
-    private Set<List<Integer>> res;
+class Solution {
+    List<List<Integer>> ans = new ArrayList<>();
+     List<Integer> list = new ArrayList<>();
+    public List<List<Integer>> permuteUnique(int[] arr) {
 
-    public List<List<Integer>> permuteUnique(int[] nums) {
-        res = new HashSet<>();
-        List<Integer> perm = new ArrayList<>();
-        backtrack(nums, perm);
-        return new ArrayList<>(res);
+        helper(arr);
+
+        HashSet<List<Integer>> set = new HashSet<>();
+        for(int i =  0; i <  ans.size() ; i++){
+            set.add(ans.get(i));
+        }
+        ans.clear();
+        for(List<Integer> array : set){
+            ans.add(array);
+        }
+        return ans;
     }
 
-    private void backtrack(int[] nums, List<Integer> perm) {
-        if (perm.size() == nums.length) {
-            res.add(new ArrayList<>(perm));
+    public void helper(int[] arr){
+        if(list.size() == arr.length){
+            ans.add(new ArrayList<>(list));
             return;
         }
-
-        for (int i = 0; i < nums.length; i++) {
-            if (nums[i] != Integer.MIN_VALUE) {
-                int temp = nums[i];
-                perm.add(nums[i]);
-                nums[i] = Integer.MIN_VALUE;
-                backtrack(nums, perm);
-                nums[i] = temp;
-                perm.remove(perm.size() - 1);
+        for(int i = 0; i < arr.length ; i++){
+            if(arr[i] != 500){
+                int temp = arr[i];
+            arr[i] = 500;
+            list.add(temp);
+            helper(arr);
+            arr[i] = temp;
+            list.remove(list.size()-1);
             }
         }
     }
