@@ -1,35 +1,46 @@
 class Solution {
-    List<List<Integer>> ans = new ArrayList<>();
+     HashMap<Integer,Integer> map = new HashMap<>();
+     List<List<Integer>> ans = new ArrayList<>();
      List<Integer> list = new ArrayList<>();
-    public List<List<Integer>> permuteUnique(int[] arr) {
 
-        helper(arr);
+    public List<List<Integer>> permuteUnique(int[] nums) {
 
-        HashSet<List<Integer>> set = new HashSet<>();
-        for(int i =  0; i <  ans.size() ; i++){
-            set.add(ans.get(i));
+
+        for(int ele : nums){
+            if(map.containsKey(ele)){
+                map.put(ele , map.get(ele)+1);
+            }
+            else{
+                map.put(ele , 1);
+            }
         }
-        ans.clear();
-        for(List<Integer> array : set){
-            ans.add(array);
-        }
-        return ans;
-    }
+        Arrays.sort(nums);
+        helper(nums , 0);
 
-    public void helper(int[] arr){
+     return ans;
+        
+    } 
+
+
+    public void  helper(int[] arr , int index ){
         if(list.size() == arr.length){
             ans.add(new ArrayList<>(list));
             return;
         }
-        for(int i = 0; i < arr.length ; i++){
-            if(arr[i] != 500){
-                int temp = arr[i];
-            arr[i] = 500;
-            list.add(temp);
-            helper(arr);
-            arr[i] = temp;
-            list.remove(list.size()-1);
-            }
+        if(index >= arr.length) return;
+
+        int next = index + 1;
+        while (next < arr.length && arr[next] == arr[index]) {
+            next++; // jump over duplicate values
         }
+        helper(arr, next);
+         if(map.get(arr[index]) > 0){
+             list.add(arr[index]);
+             map.put(arr[index] , map.get(arr[index]) -1);
+            helper(arr , 0);
+            list.remove(list.size() -1);
+             map.put(arr[index] , map.get(arr[index]) +1);
+        }
+
     }
 }
