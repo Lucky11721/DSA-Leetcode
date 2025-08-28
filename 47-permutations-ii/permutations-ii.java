@@ -14,33 +14,28 @@ class Solution {
                 map.put(ele , 1);
             }
         }
-        Arrays.sort(nums);
-        helper(nums , 0);
+        helper(nums );
 
      return ans;
-        
-    } 
-
-
-    public void  helper(int[] arr , int index ){
+    }
+    
+    public void helper(int[] arr){
         if(list.size() == arr.length){
             ans.add(new ArrayList<>(list));
             return;
         }
-        if(index >= arr.length) return;
 
-        int next = index + 1;
-        while (next < arr.length && arr[next] == arr[index]) {
-            next++; // jump over duplicate values
-        }
-        helper(arr, next);
-         if(map.get(arr[index]) > 0){
-             list.add(arr[index]);
-             map.put(arr[index] , map.get(arr[index]) -1);
-            helper(arr , 0);
-            list.remove(list.size() -1);
-             map.put(arr[index] , map.get(arr[index]) +1);
-        }
+        for(int key : map.keySet()){
+            if(map.get(key) == 0 ) continue;
+            if(map.get(key) > 0){
+                list.add(key);
+                map.put(key , map.get(key) -1);
 
+                helper(arr);
+
+                list.remove(list.size() - 1);
+                map.put(key , map.get(key) +1);
+            }
+        }
     }
-}
+    }
