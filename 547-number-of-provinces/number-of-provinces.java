@@ -1,27 +1,30 @@
 class Solution {
-    public int findCircleNum(int[][] graph) {
-         int n = graph.length;
-         int count = 0 ;
-         boolean[] visited = new boolean[n];
-         for(int i = 0; i < n ; i++){
+    public int findCircleNum(int[][] isConnected) {
+        int n = isConnected.length;
+        boolean visited[] = new boolean[n+1];
+      int ans = 0;
+        for(int i = 0 ; i < n ; i++){
             if(visited[i] == false){
-                bfs(i ,  visited , graph);
-                count++;
+                helper(visited , isConnected , i);
+                ans++;
             }
-         }
-         return count;
+        }
+        return ans;
     }
 
-    public void bfs(int i , boolean[] visited , int[][] graph){
-          visited[i] = true;
-          Queue<Integer> que = new LinkedList<>();
-          que.add(i);
-     while(!que.isEmpty()){
-            int front = que.remove();
-            for(int j = 0; j < graph.length ; j++){
-                if(graph[front][j] == 1 && visited[j] == false){
-                    que.add(j);
-                    visited[j] = true;
+    public void helper(boolean[] visited , int[][] graph , int index){
+
+        Queue<Integer> que = new LinkedList<>();
+        que.add(index);
+        visited[index] = true;
+
+        while(que.isEmpty() == false){
+            int ele = que.remove();
+
+            for(int i = 0 ; i < graph.length ; i++  ){
+                if(visited[i] == false && graph[ele][i] == 1){
+                    que.add(i);
+                    visited[i] = true;
                 }
             }
         }
