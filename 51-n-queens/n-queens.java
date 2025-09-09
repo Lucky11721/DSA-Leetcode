@@ -19,15 +19,15 @@ class Solution {
 
     public void helper(char[][] ans, int row, int n) {
         if (row >= n) {
-            String[] str = new String[n];
+            List<String> temp = new ArrayList<>();
 
             for (int i = 0; i < n; i++) {
-                str[i] = "";
+                String st = "";
                 for (int j = 0; j < ans[0].length; j++) {
-                    str[i] += ans[i][j];
+                  st += ans[i][j];
                 }
+                temp.add(st);
             }
-            List<String> temp = Arrays.asList(str);  // Fix: better way to convert array to List
             final_ans.add(new ArrayList<>(temp));
             return;
         }
