@@ -1,26 +1,38 @@
 class Solution {
     public String sortVowels(String s) {
-        char[] arr = s.toCharArray();
-        int n = arr.length;
-        List<Character> list = new ArrayList<>();
-        for(char ch : arr){
-            if(ch == 'A' || ch == 'a' || ch == 'E' || ch == 'e' || ch == 'I'
-            || ch == 'i' || ch == 'O' || ch == 'o' || ch == 'U' || ch == 'u'){
-                list.add(ch);
+        int n = s.length();
+        int count = 0 ;
+        for(int  i  = 0 ; i <  n ; i++){
+            if(s.charAt(i) == 'A' || s.charAt(i) == 'a'  || s.charAt(i) == 'E' || s.charAt(i) == 'e' || 
+            s.charAt(i) == 'I' || s.charAt(i) == 'i' || s.charAt(i) == 'O' 
+            || s.charAt(i) == 'o' || s.charAt(i) == 'U' || s.charAt(i) == 'u'){
+           count++;
             }
         }
-        Collections.sort(list);
-        System.out.println(list);
+        char[] ch = new char[count];
         int index = 0;
-        for(int  i = 0 ; i <  n ;i++){
-            if(arr[i] == 'A' || arr[i] == 'a' || arr[i] == 'E' || arr[i] == 'e' || arr[i] == 'I'
-            || arr[i] == 'i' || arr[i] == 'O' || arr[i] == 'o' || arr[i] == 'U' || arr[i] == 'u'){
-               arr[i] = list.get(index);
-               index++;
+        for(int i = 0 ; i < n ; i++){
+             if(s.charAt(i) == 'A' || s.charAt(i) == 'a'  || s.charAt(i) == 'E' || s.charAt(i) == 'e' || 
+            s.charAt(i) == 'I' || s.charAt(i) == 'i' || s.charAt(i) == 'O' 
+            || s.charAt(i) == 'o' || s.charAt(i) == 'U' || s.charAt(i) == 'u'){
+                  ch[index] = s.charAt(i);
+                  index++;
             }
         }
-        System.out.println(Arrays.toString(arr));
-
-        return new String(arr);
+        Arrays.sort(ch);
+        StringBuilder sb = new StringBuilder();
+        index = 0;
+        for(int i = 0 ; i < n ; i++){
+             if(s.charAt(i) == 'A' || s.charAt(i) == 'a'  || s.charAt(i) == 'E' || s.charAt(i) == 'e' || 
+            s.charAt(i) == 'I' || s.charAt(i) == 'i' || s.charAt(i) == 'O' 
+            || s.charAt(i) == 'o' || s.charAt(i) == 'U' || s.charAt(i) == 'u'){
+                  sb.append(ch[index]);
+                  index++;
+            }
+            else{
+                sb.append(s.charAt(i));
+            }
+        }
+        return sb.toString();
     }
 }
