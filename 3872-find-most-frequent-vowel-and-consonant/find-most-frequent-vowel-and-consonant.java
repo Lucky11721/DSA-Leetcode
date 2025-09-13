@@ -1,53 +1,29 @@
 class Solution {
     public int maxFreqSum(String s) {
         int n = s.length();
-        char[] arr = s.toCharArray();
 
-        HashMap<Character , Integer> map = new HashMap<>();
+        int[] arr = new int[26];
 
-        for(char ch : arr){
-            if(ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u'){
-  if(map.containsKey(ch)){
-                map.put(ch , map.get(ch) +1);
+        for(int  i  = 0 ; i < n ; i++){
+            char ch = s.charAt(i);
+
+            arr[ch-'a'] = arr[ch - 'a'] +1;
+         }
+         int vowelCount =0 ;
+         int constCount = 0;
+
+         for(int i = 0 ; i < arr.length ; i++){
+            if(i == 0 || i == 4 || i == 8 || i == 14 || i == 20){
+                vowelCount =  Math.max(vowelCount , arr[i]); 
             }
             else{
-                map.put(ch , 1);
+                constCount = Math.max(constCount , arr[i]);
             }
-            }
-        }
-         for (Map.Entry<Character, Integer> entry : map.entrySet()) {
-            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
-        }
+         }
 
-        System.out.println("change from here");
-        int maxVowel = 0;
 
-        for(char ch : map.keySet()){
-            maxVowel = Math.max(map.get(ch) , maxVowel);
-        }
-        map.clear();
+         return vowelCount + constCount;
 
-        for(char ch : arr){
-             if(ch != 'a' && ch != 'e' && ch != 'i' && ch != 'o' && ch != 'u'){
-                 if(map.containsKey(ch)){
-                map.put(ch , map.get(ch) +1);
-            }
-            else{
-                map.put(ch , 1);
-            }
-             }
-        }
-         for (Map.Entry<Character, Integer> entry : map.entrySet()) {
-            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
-        }
-
-        int maxConst = 0;
-
-       for(char ch : map.keySet()){
-              maxConst = Math.max(maxConst ,map.get(ch) );
-        }
-
-        return maxConst  + maxVowel;
-
+        
     }
 }
