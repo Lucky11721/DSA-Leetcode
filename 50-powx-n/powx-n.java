@@ -1,23 +1,25 @@
 class Solution {
-    public double myPow(double x, int n) {
-        long N = n; // Convert to long to avoid overflow
-        return fastPow(x, N);
+    public double myPow(double x, int N) {
+         long n = N;
+        return helper(x , n);
     }
 
-    private double fastPow(double x, long n) {
-        if (n == 0) return 1;
+    public double helper(double x , long n){
+        if(n == 0) return 1;
+      if(n < 0){
+        n = n *(-1);
+        x = 1/x;
+      }
 
-        if (n < 0) {
-            x = 1 / x;
-            n = -n;
+        double half = helper(x , n/2);
+
+        if(n %2 == 0){
+            return half*half;
         }
-
-        double half = fastPow(x, n / 2);
-
-        if (n % 2 == 0) {
-            return half * half;
-        } else {
-            return half * half * x;
-        }
+        else{
+            return half* half * x;
+                    }
     }
+
+
 }
