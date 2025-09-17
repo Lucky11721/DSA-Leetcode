@@ -1,24 +1,20 @@
 class Solution {
+    int[][] dp;
     public int change(int amount, int[] coins) {
-        int n = coins.length;
-        int[][] dp = new int[n+1][amount+1];
-        for(int i = 0 ; i < n +1; i++){
-            Arrays.fill(dp[i] , -1);
+        dp = new int[coins.length +1][amount];
+        for(int[] row : dp){
+            Arrays.fill(row , -1);
         }
-        return countWays(coins, 0, amount , dp);
+        return helper(coins , 0 , amount ,0);
     }
 
-    public int countWays(int[] coins, int index, int amount , int[][] dp) {
-        if (amount == 0) return 1;  // Found a valid combination
-        if (amount < 0 || index == coins.length) return 0;  // Invalid path
-        if(dp[index][amount] != -1) return dp[index][amount];
-        // Option 1: Include the current coin
-        int include = countWays(coins, index, amount - coins[index] , dp);
+    public int helper(int[] arr , int index , int amount , int curr_amount){
+        if(amount == curr_amount ) return 1;
+        if(index >= arr.length || curr_amount  >  amount) return 0;
+         if(dp[index][curr_amount] != -1) return dp[index][curr_amount];
+        int pick = helper(arr , index , amount , curr_amount + arr[index]);
+        int skip = helper(arr , index  +1, amount , curr_amount );
 
-        // Option 2: Exclude the current coin and move to next
-        int exclude = countWays(coins, index + 1, amount ,dp);
-         dp[index][amount] = include + exclude;
-
-        return include + exclude;
+        return dp[index][curr_amount] = pick + skip;
     }
 }
