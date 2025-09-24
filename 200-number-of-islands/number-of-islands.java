@@ -20,13 +20,30 @@ class Solution {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 if (arr[i][j] == '1' && visited[i][j] == false) {
-                    helper(arr, i, j, visited, n, m);
+                    dfs(arr, i, j, visited, n, m);
                     ans++;
                 }
             }
         }
 
         return ans;
+    }
+
+    public void dfs(char[][] arr , int row, int col ,boolean[][] visited ,  int n , int m ){
+      
+        visited[row][col] =true;
+        if(row -1 >= 0 && arr[row-1][col] == '1' && visited[row-1][col] == false){
+            dfs(arr , row-1 , col , visited , n , m);
+        }
+         if(row +1 < n&& arr[row +1][col] == '1' && visited[row+1][col] == false){
+            dfs(arr , row +1 , col , visited , n , m);
+        }
+         if(col -1 >= 0 && arr[row][col -1] =='1'&& visited[row][col-1] == false){
+            dfs(arr , row , col-1 , visited , n , m);
+        }
+         if( col+1 < m &&  arr[row][col+1] == '1'&& visited[row][col+1] == false){
+            dfs(arr , row , col+1 , visited , n , m);
+        }
     }
 
     public void helper(char[][] arr, int rows, int cols, boolean[][] visited, int n, int m) {
@@ -154,23 +171,23 @@ class Solution {
 
             // Inner cells (not on edge or corner)
             if (row > 0 && col > 0 && row < n - 1 && col < m - 1) {
-    if (arr[row - 1][col] == '1' && !visited[row - 1][col]) {
-        que.add(new Pair(row - 1, col));
-        visited[row - 1][col] = true;
-    }
-    if (arr[row][col - 1] == '1' && !visited[row][col - 1]) {
-        que.add(new Pair(row, col - 1));
-        visited[row][col - 1] = true;
-    }
-    if (arr[row + 1][col] == '1' && !visited[row + 1][col]) {
-        que.add(new Pair(row + 1, col));
-        visited[row + 1][col] = true;
-    }
-    if (arr[row][col + 1] == '1' && !visited[row][col + 1]) {
-        que.add(new Pair(row, col + 1));
-        visited[row][col + 1] = true;
-    }
-}
+                if (arr[row - 1][col] == '1' && !visited[row - 1][col]) {
+                    que.add(new Pair(row - 1, col));
+                    visited[row - 1][col] = true;
+                }
+                if (arr[row][col - 1] == '1' && !visited[row][col - 1]) {
+                    que.add(new Pair(row, col - 1));
+                    visited[row][col - 1] = true;
+                }
+                if (arr[row + 1][col] == '1' && !visited[row + 1][col]) {
+                    que.add(new Pair(row + 1, col));
+                    visited[row + 1][col] = true;
+                }
+                if (arr[row][col + 1] == '1' && !visited[row][col + 1]) {
+                    que.add(new Pair(row, col + 1));
+                    visited[row][col + 1] = true;
+                }
+            }
         }
     }
 }
