@@ -5,14 +5,25 @@ class Solution {
       int ans = 0;
         for(int i = 0 ; i < n ; i++){
             if(visited[i] == false){
-                helper(visited , isConnected , i);
+                dfs(i , visited , isConnected);
                 ans++;
             }
         }
         return ans;
     }
+    public void dfs(int index , boolean[] visited , int[][] graph){
 
-    public void helper(boolean[] visited , int[][] graph , int index){
+        visited[index] = true;
+
+        for(int col = 0 ; col < graph[index].length ; col++){
+            if(visited[col] == false && graph[index][col] == 1){
+                dfs(col , visited , graph);
+            }
+        }
+    }
+
+
+    /*public void helper(boolean[] visited , int[][] graph , int index){
 
         Queue<Integer> que = new LinkedList<>();
         que.add(index);
@@ -28,5 +39,5 @@ class Solution {
                 }
             }
         }
-    }
+    }*/
 }
