@@ -3,7 +3,7 @@ class Solution {
         int n = grid.length;
 
         int ans = 0;
-        int left = 0;
+        int left = grid[0][0];
         int right = n*n -1;
 
         while(left <= right){
