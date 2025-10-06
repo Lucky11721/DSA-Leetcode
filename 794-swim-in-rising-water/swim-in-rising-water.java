@@ -1,43 +1,46 @@
 class Solution {
+    class Pair {
+        int time;
+        int row;
+        int col;
+
+        Pair(int time , int row , int col){
+            this.time = time;
+            this.row = row;
+            this.col = col;
+        }
+    }
     public int swimInWater(int[][] grid) {
         int n = grid.length;
+        boolean[][] visited = new boolean[n][n];
 
-        int ans = 0;
-        int left = grid[0][0];
-        int right = n*n -1;
+        PriorityQueue<Pair> minHeap = new PriorityQueue<>((a,b) -> Integer.compare(a.time , b.time));
 
-        while(left <= right){
-            int mid = left + (right-left)/2;
-            boolean[][] visited = new boolean[n][n];
-            if(dfs(grid , 0, 0 , n , mid , visited)){
-                ans = mid;
-                right = mid-1;
+        minHeap.add(new Pair(grid[0][0] , 0 , 0));
+
+        int[][] directions = {{-1,0} , {1,0} , {0 ,-1} , {0,1}};
+
+        while(minHeap.isEmpty() == false){
+            Pair p = minHeap.remove();
+            int time = p.time;
+            int row = p.row;
+            int col = p.col;
+            visited[row][col] = true;
+            if(row == n-1 && col == n-1){
+                return time;
             }
-            else{
-                left = mid +1;
-            }
-        }
-        return ans;
-    }
 
-    public boolean dfs(int[][] grid , int i , int j , int n , int time , boolean[][] visited){
-        if(i < 0 || j < 0 || i >= n || j >= n || visited[i][j] == true || grid[i][j] > time){
-            return false;
-        }
+            for(int[] direc : directions){
+                int curr_row = row + direc[0];
+                int curr_col = col + direc[1];
 
-        visited[i][j] = true;
-        int[][] directions = {{-1,0} , {1,0} , {0,1} , {0,-1}};
-
-        if(i == n-1 && j == n-1 ) return true;
-        for(int[] direc : directions){
-            int curr_i = i + direc[0];
-            int curr_j = j + direc[1];
-
-            if(dfs(grid ,  curr_i , curr_j , n , time , visited)){
-                return true;
+                if(curr_row >= 0 && curr_col >= 0 && curr_row < n && curr_col < n
+                 && visited[curr_row][curr_col] == false){
+                    minHeap.add(new Pair(Math.max(grid[curr_row][curr_col] ,time) , curr_row , curr_col));
+                 }
             }
         }
-        return false;
 
+        return 0;
     }
 }
