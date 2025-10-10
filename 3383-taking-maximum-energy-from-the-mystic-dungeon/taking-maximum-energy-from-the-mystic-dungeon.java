@@ -1,26 +1,17 @@
 class Solution {
-    int[] dp;
     public int maximumEnergy(int[] energy, int k) {
         int n = energy.length;
-
-        dp = new int[n+1];
-
-        Arrays.fill(dp , -1);
+        int[] dp = new int[n];
         int ans = Integer.MIN_VALUE;
-        for(int i = 0 ; i <  n ;  i++){
-
-            ans = Math.max(ans , helper(energy , i , k));
+        
+        for (int i = n - 1; i >= 0; i--) {
+            dp[i] = energy[i];
+            if (i + k < n) {
+                dp[i] += dp[i + k];
+            }
+            ans = Math.max(ans, dp[i]);
         }
-
+        
         return ans;
     }
-
-
-    public int helper(int[] arr , int index , int k){
-        if(index >= arr.length) return 0;
-        if(dp[index] != -1) return dp[index];
-
-        return dp[index] = arr[index] + helper(arr , index+k , k);
-}
-
 }
