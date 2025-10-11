@@ -22,24 +22,21 @@ class Solution {
             i++;
         }
         dp = new long[arr.length];
-        Arrays.fill(dp , -1);
         Arrays.sort(arr);
         System.out.println(Arrays.toString(arr));
+        long ans = 0;
+        for(int x = arr.length - 1; x >= 0; x-- ){
+            long skip = (x + 1 < arr.length) ? dp[x + 1] : 0;
+            int j = lower_bound(arr, x + 1, arr.length - 1, arr[x] + 3);
+            long take = (long) arr[x] * map.get(arr[x]) + ((j < arr.length) ? dp[j] : 0);
 
-        return helper(arr , 0);
-
-    }
-    public long helper(int[] arr , int index){
-        if(index >= arr.length) return 0;
-
-        if(dp[index] != -1) return dp[index];
-
-        long  take = (long)arr[index] * map.get(arr[index]) + helper(arr , lower_bound(arr , index+1 , arr.length-1 , arr[index] +3));
-          long skip = helper(arr , index+1);
-
-        return dp[index] = Math.max(take , skip);
+            dp[x] = Math.max(skip, take);
+            ans = Math.max(ans, dp[x]);
+        }
+        return ans;
 
     }
+    
 
     public int lower_bound(int[] arr , int i , int j , int target){
        int ans = arr.length;
