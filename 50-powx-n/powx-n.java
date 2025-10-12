@@ -1,25 +1,24 @@
 class Solution {
-    public double myPow(double x, int N) {
-         long n = N;
-        return helper(x , n);
+    public double myPow(double x, int n) {
+        long N = n;
+         if(n < 0){
+           N = (-1)*N;
+            x = 1/x;
+        }
+        return helper(x,N);
     }
 
     public double helper(double x , long n){
         if(n == 0) return 1;
-      if(n < 0){
-        n = n *(-1);
-        x = 1/x;
-      }
-
+        
+       
         double half = helper(x , n/2);
 
-        if(n %2 == 0){
-            return half*half;
+        if(n% 2 == 1){
+            return half * half * x;
         }
         else{
-            return half* half * x;
-                    }
+            return half * half;
+        }
     }
-
-
 }
