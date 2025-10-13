@@ -2,7 +2,7 @@ class Solution {
     public List<String> removeAnagrams(String[] arr) {
         int n = arr.length;
         int i = 0;
-        int j = 1;
+        int j = 1; 
         while(j < n){
             if(check_anagram(arr , i , j)){
                 arr[j] = " ";
@@ -27,28 +27,24 @@ class Solution {
     }
 
     public boolean check_anagram(String[] arr , int i , int j ){
-        
-        char[] a = arr[i].toCharArray();
-        char[] b = arr[j].toCharArray();
-        Arrays.sort(a);
-        Arrays.sort(b);
-        int n = a.length;
-        int m = b.length;
+        int[] check = new int[26];
+    if(arr[i].length() != arr[j].length()) return false;
 
-        if(n != m) return false;
-        int x = 0;
-        int y = 0;
+    for(int x = 0 ; x < arr[i].length() ; x++){
+          char ch = arr[i].charAt(x);
+          check[ch - 'a'] += 1;
+    }
+     for(int x = 0 ; x < arr[j].length() ; x++){
+          char ch = arr[j].charAt(x);
+          check[ch - 'a'] -= 1;
+    }
 
-        while(x < a.length && y < b.length){
-            if(a[x] != b[y]){
-                return false;
-            }
-            x++;
-            y++;
+    for(int val : check){
+        if(val > 0){
+            return false;
         }
-
-        return true;
-
+    }
+    return true;
 
     }
 }
