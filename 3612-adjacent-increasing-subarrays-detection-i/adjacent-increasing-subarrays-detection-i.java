@@ -15,28 +15,20 @@ return false;
     }
 
     public boolean helper(List<Integer> list , int i , int j , int ik , int jk , int k ){
-        int count =0 ;
-        for(int x = i +1 ; x < j ; x++){
-            if(list.get(x) > list.get(x-1)){
-                count++;
-            }
-            else{
-                return false;
-            }
+       
+       for(int x = i+1 ; x < j ; x++){
+        if(list.get(x) <= list.get(x-1)){
+            return false;
         }
+       }
 
-        for(int x = ik +1 ; x < jk ; x++){
-            if(list.get(x) > list.get(x-1)){
-                count++;
-            }
-            else{
-                return false;
-            }
+       for(int x = ik+1 ; x < jk ; x++){
+         if(list.get(x) <= list.get(x-1)){
+            return false;
         }
-        System.out.println(count);
-      
+       }
 
-      return count == 2*(k-1);
+       return true;
 
     }
 }
