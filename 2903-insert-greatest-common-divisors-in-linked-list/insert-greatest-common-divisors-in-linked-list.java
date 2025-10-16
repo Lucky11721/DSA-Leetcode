@@ -32,11 +32,17 @@ class Solution {
 
 
     public int hcf(int a , int b){
-         while (b != 0) {
-            int temp = b;
-            b = a % b;
-            a = temp;
+        int n = Math.min(a,b);
+
+        int ans =-1;
+        for(int i = 1 ; i <= n ; i++){
+            int aa = a%i;
+            int bb = b%i;
+
+            if(aa == 0 && bb ==0){
+                ans = Math.max(ans , i);
+            }
         }
-        return a;
+        return ans;
     }
 }
