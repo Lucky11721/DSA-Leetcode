@@ -1,43 +1,31 @@
 class Solution {
-        int red = 0;
-        int blue = 1;
+    int red = 0;
+    int blue = 1;
+
     public boolean isBipartite(int[][] graph) {
-        
-        int n =   graph.length;
+        int n = graph.length;
+        int[] visited = new int[n];
+        Arrays.fill(visited, -1);  // -1 means unvisited
 
-        int visited[] = new int[n];
-        Arrays.fill(visited , -1);
-
-        for(int i = 0 ; i < n ; i++){
-            if(visited[i] == -1){
-                if(bfs(graph , i , visited) == false) return false;
+        for (int i = 0; i < n; i++) {
+            if (visited[i] == -1) {
+                // start DFS with red color
+                if (!dfs(graph, i, red, visited)) return false;
             }
         }
         return true;
-
     }
 
-    public boolean bfs(int[][] graph , int i , int[] visited){
-        Queue<Integer> que = new LinkedList<>();
+    public boolean dfs(int[][] graph, int node, int color, int[] visited) {
+        visited[node] = color;
 
-        que.add(i);
-        que.add(red);
-
-        while(que.isEmpty() == false){
-            int parent = que.remove();
-            for(int child : graph[parent]){
-                if((visited[child] == -1)){
-                   if(visited[parent] == red){
-                     visited[child] = blue;
-                   }
-                   else{
-                       visited[child] = red;
-                   }
-                   que.add(child);
-                }
-                else if(visited[child] != -1 &&  visited[child] == visited[parent]){
-                    return false;
-                }
+        for (int neigh : graph[node]) {
+            if (visited[neigh] == -1) {
+                // give opposite color
+                if (!dfs(graph, neigh, 1 - color, visited)) return false;
+            } else if (visited[neigh] == color) {
+                // same color neighbor → not bipartite
+                return false;
             }
         }
         return true;
