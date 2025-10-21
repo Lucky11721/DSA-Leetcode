@@ -17,20 +17,21 @@ class Solution {
     int ans;
     public int maxPathSum(TreeNode root) {
         ans = root.val;
-        helper(root);
-        return ans;
+      pathsum(root);   
+      return ans;
     }
-    public int helper(TreeNode root){
+
+    public int pathsum(TreeNode root){
         if(root == null) return 0;
 
-        int left_sum = helper(root.left);
+        int left_sum  = pathsum(root.left);
         if(left_sum < 0) left_sum = 0;
-        int right_sum = helper(root.right);
+        int right_sum = pathsum(root.right);
         if(right_sum < 0) right_sum = 0;
-       
-       ans = Math.max(ans , left_sum + root.val + right_sum);
 
-       return root.val + Math.max(left_sum , right_sum);
+        ans = Math.max(ans , root.val + left_sum + right_sum);
+
+
+        return  root.val + Math.max(left_sum , right_sum);
     }
-    
 }
