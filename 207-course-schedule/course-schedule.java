@@ -1,51 +1,45 @@
 class Solution {
-    public boolean canFinish(int V, int[][] edges) {
+    boolean ans = true;
+    public boolean canFinish(int V, int[][] graph) {
         List<List<Integer>> list = new ArrayList<>();
-        for(int i = 0 ; i < V ; i++){
+
+        for(int i = 0 ; i  < V ; i++){
             list.add(new ArrayList<>());
         }
-
-      for(int[] edge : edges){
-        int parent = edge[0];
-        int child = edge[1];
-
-        list.get(parent).add(child);
-      }
-      int[] indegree = new int[V];
-
-      for(int i  = 0 ; i < V ; i++){
-        for(int edge : list.get(i)){
-            indegree[edge] += 1; 
-        }
-      }
-      List<Integer> ans = new ArrayList<>();
-      toposort_bfs(list, indegree , ans);
-
-      if(ans.size() != V ) return false;
-
-      return true;
-
-      
-    }
-
-    public void toposort_bfs( List<List<Integer>> list , int[] indegree , List<Integer> ans){
-        Queue<Integer> que = new LinkedList<>();
-
-        for(int i =  0 ; i < indegree.length ; i++){
-            if(indegree[i] == 0) que.add(i);
+        for(int i = 0 ; i < graph.length ; i++){
+            int parent = graph[i][0];
+            int child = graph[i][1];
+            list.get(parent).add(child);
         }
 
-        while(que.isEmpty() == false){
-            int node = que.remove();
-            ans.add(node);
+        boolean[] visited = new boolean[V];
+        boolean[] path = new boolean[V];
 
-            for(int child : list.get(node)){
-                indegree[child] -= 1;
-
-                if( indegree[child] == 0) que.add(child);
+        for(int i = 0; i < list.size() ; i++){
+            if(visited[i] == false){
+                dfs(list , visited , path ,i);
             }
         }
+        
+        return ans;
 
+    }
 
+    public void dfs(List<List<Integer>> list , boolean[] visited , boolean[] path , int node){
+        visited[node] = true;
+        path[node] = true;
+
+        for(int child : list.get(node)){
+            if(!visited[child]){
+                dfs(list , visited , path , child);
+            }
+            else if(visited[child] == true && path[child] == true){
+                 ans = false;
+                 return;
+            }
+
+        }
+        path[node] = false;
+        
     }
 }
