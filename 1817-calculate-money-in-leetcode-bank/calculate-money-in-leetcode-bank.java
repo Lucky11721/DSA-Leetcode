@@ -1,16 +1,27 @@
 class Solution {
     public int totalMoney(int n) {
-        int total = 0;
-        int weekStart = 1;
+      
+        int completeweeks = n/7;
+        System.out.println(completeweeks);
+        // apply AP;
+        int first_term = 28; // sum of money of first week;
+        // calculate last term
+        int last_term = first_term +(completeweeks - 1)* 7;
+        // sum of money for all complete weeks
 
-        while (n > 0) {
-            for (int day = 0; day < 7 && n > 0; day++) {
-                total += weekStart + day;
-                n--;
-            }
-            weekStart++;
+        double result = (completeweeks*(first_term+last_term))/2;
+        System.out.println(result);
+        // remaining days
+        int remaining_days = n%7;
+
+        int start_money = completeweeks+1;
+
+        for(int i = 1; i <=remaining_days ; i++){
+            result += start_money;
+            start_money++;
         }
 
-        return total;
+return (int)result;
+        
     }
 }
