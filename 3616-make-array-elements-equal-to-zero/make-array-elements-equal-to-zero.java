@@ -1,39 +1,35 @@
 class Solution {
     public int countValidSelections(int[] nums) {
+
         int n = nums.length;
-        int count= 0;
-
-        for(int i = 0 ; i < n ; i++){
-            if(nums[i] > 0 ) count++;
-        }
-        int ans = 0;
-
-        for(int i = 0 ; i < n  ; i++){
+int ans =0;
+        for(int i = 0 ; i <  n ; i++){
             if(nums[i] == 0){
-                if(isValid(nums , i , -1 , count)) ans++;
-                 if(isValid(nums , i , 1 , count)) ans++;
+                int left_sum = leftSum(nums , i);
+                int right_sum = rightSum(nums,i);
+
+                if(left_sum == right_sum) ans += 2;
+                if((left_sum - right_sum == 1) || (right_sum - left_sum == 1)) ans+=1;
             }
         }
-
         return ans;
     }
 
-    public boolean isValid(int[] nums , int curr , int direction , int count){
-        int[] arr = nums.clone();
-
-        int index = curr;
-
-        while(index >= 0 && index < arr.length && count > 0){
-            if(arr[index] > 0){
-                arr[index]--;
-                direction *= -1;
-
-                if(arr[index] == 0) count--;
-            }
-
-            index += direction;
+    public int leftSum(int[] arr , int index){
+        int sum = 0;
+        for(int i = index ; i >= 0 ; i--){
+            sum += arr[i];
         }
 
-        return count == 0;
+        return sum;
+    }
+
+    public int rightSum(int[] arr , int index){
+        int sum = 0;
+        for(int i =  index ; i < arr.length ; i++){
+            sum += arr[i];
+        }
+
+        return sum;
     }
 }
