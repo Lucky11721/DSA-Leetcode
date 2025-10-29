@@ -1,17 +1,12 @@
 class Solution {
     public int smallestNumber(int n) {
+        
+        int ans =1;
 
-        while(isSet(n) == false){
-           n++; 
+        while(ans < n){
+            ans = 2*ans +1;
         }
 
-        return n;
-    }
-
-    public boolean isSet(int num){
-        int check = num & (num+1);
-
-
-        return check == 0;
+        return ans;
     }
 }
