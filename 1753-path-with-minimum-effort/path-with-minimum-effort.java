@@ -40,6 +40,9 @@ class Solution {
             int row = top.row;
             int col = top.col;
             int effort = top.effort;
+            if(row == m-1 && col == n-1 && effort > ans[m-1][n-1]){
+                break;
+            }
     
             for(int i = 0 ; i < 4 ; i++){
                 int newRow = row + dx[i];
