@@ -15,29 +15,22 @@ class Solution {
         for(int i = 0 ; i < nums.length; i++){
             set.add(nums[i]);
         }
-        ListNode temp = head;
 
-        while(temp != null){
-            list.add(temp.val);
-            temp = temp.next;
-        }
-
-        for(int i = 0 ; i < list.size() ; i++){
-            if(set.contains(list.get(i))){
-                list.set(i , 0);
-            }
-        }
         ListNode dummy = new ListNode(-1);
-        temp = dummy;
+        ListNode temp = dummy;
 
-        for(int i = 0 ;i < list.size() ; i++){
-            if(list.get(i) >  0){
-                ListNode temp1 = new ListNode(list.get(i));
-                temp.next = temp1;
-                temp = temp.next;
+        ListNode curr = head;
+
+        while(curr != null){
+            if(set.contains(curr.val)){
+                temp.next = curr.next;
             }
+            else{
+                 temp.next = curr;
+                 temp = curr;
+            }
+            curr = curr.next;
         }
-
 
         return dummy.next;
         
