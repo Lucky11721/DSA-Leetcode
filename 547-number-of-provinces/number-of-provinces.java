@@ -1,27 +1,34 @@
 class Solution {
+    int[] parent;
     public int findCircleNum(int[][] isConnected) {
         int n = isConnected.length;
-        boolean[] visited = new boolean[n+1];
+        parent = new int[n+1];
+        for(int i = 0 ; i <  n +1 ;i++){
+            parent[i] = i;
+        }
 
-        int ans = 0;
+        for(int i = 0 ; i < n ; i++){
+            for(int j = 0 ; j <  n ; j++){
 
-        for(int i = 0 ; i  < n ; i++){
-            if(visited[i] == false){
-                dfs(i , visited , isConnected);
-                ans++;
+                if(i!= j && isConnected[i][j] == 1) union(i+1,j+1);
             }
         }
-        return ans;
+        int count = 0;
+        for(int i = 1 ; i <=n ; i++){
+            if(parent[i] == i) count++;
+        }
+        return count;
     }
-
-    public void dfs(int index , boolean[] visited , int[][] graph){
-
-        visited[index] = true;
-
-        for(int col = 0; col < graph[index].length ; col++){
-            if(visited[col] == false && graph[index][col] == 1){
-                dfs(col , visited , graph);
-            }
+    public void union(int a , int b){
+        int leaderA = find(a);
+        int leaderB = find(b);
+        if(leaderA != leaderB){
+             parent[leaderB] = leaderA;
         }
+    }
+    public int find(int a){
+        if(parent[a] == a) return a;
+
+        return find(parent[a]);
     }
 }
