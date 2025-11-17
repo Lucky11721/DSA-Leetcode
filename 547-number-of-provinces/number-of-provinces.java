@@ -1,10 +1,11 @@
 class Solution {
     int[] parent;
     int[] size;
+    // optimized DSU Disjoint set union;
     public int findLeader(int a){
         if(parent[a]  == a) return a;
 
-        return findLeader(parent[a]);
+        return parent[a] = findLeader(parent[a]);
     }
 
     public void union(int a , int b){
