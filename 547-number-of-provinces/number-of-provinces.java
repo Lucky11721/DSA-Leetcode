@@ -1,6 +1,6 @@
 class Solution {
     int[] parent;
-
+    int[] size;
     public int findLeader(int a){
         if(parent[a]  == a) return a;
 
@@ -11,14 +11,24 @@ class Solution {
         int leaderA = findLeader(a);
         int leaderB = findLeader(b);
         if(leaderA != leaderB){
+           if(size[leaderA] > size[leaderB]){
+              parent[leaderB] = leaderA;
+              size[leaderA]  += size[leaderB];
+           }
+           else{
             parent[leaderA] = leaderB;
+            size[leaderB] += size[leaderA];
+           }
         }
     }
     public int findCircleNum(int[][] isConnected) {
         int n = isConnected.length;
         parent = new int[n+1];
+        size = new int[n+1];
+
         for(int i = 0 ; i < n ; i++){
             parent[i] = i;
+            size[i] = 1;
         }
 
         for(int i = 0 ; i < n ; i++){
