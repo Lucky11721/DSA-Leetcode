@@ -24,7 +24,7 @@ class Solution {
         for(int i = 0 ; i < n ; i++){
             for(int j = 0 ; j < n; j++){
 
-                if(isConnected[i][j] == 1) union(i +1, j +1);
+                if( 1 != j && isConnected[i][j] == 1) union(i +1, j +1);
             }
         }
 
