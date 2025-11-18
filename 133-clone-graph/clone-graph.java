@@ -24,23 +24,26 @@ class Solution {
         HashMap<Node,Node> map = new HashMap<>();
         Node newNode = new Node(node.val);
         map.put(node , newNode);
-        dfs(node , newNode , map);
-        return newNode;
-    }
 
-    public void dfs(Node old ,  Node newNode , HashMap<Node , Node> map){
+        Queue<Node> que = new LinkedList<>();
+        que.add(node);
+        while(que.isEmpty() == false){
 
-        for(Node neigh : old.neighbors){
+            Node old = que.remove();
 
-            if(map.get(neigh) == null){
-                Node clone = new Node(neigh.val);
-                map.put(neigh , clone);
-                newNode.neighbors.add(clone);
-                dfs(neigh , clone , map);
-            }
-            else{
-                newNode.neighbors.add(map.get(neigh));
+            for(Node neigh : old.neighbors){
+                if(map.get(neigh) == null){
+                    Node clone = new Node(neigh.val);
+                    map.put(neigh , clone);
+                    que.add(neigh);
+                    map.get(old).neighbors.add(clone);
+                }
+                else{
+                    map.get(old).neighbors.add(map.get(neigh));
+                }
             }
         }
+
+        return newNode;
     }
 }
