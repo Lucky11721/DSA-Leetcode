@@ -11,32 +11,55 @@ class Solution {
         for(int edge[] : prerequisites){
             int u = edge[0];
             int v = edge[1];
+
             adj.get(u).add(v);
+            in[v] += 1;
         } 
-        List<Boolean> ans  = new ArrayList<>();
-        for(int[] query : queries){
-            int start = query[0];
-            int end = query[1];
-            boolean[] visited = new boolean[V];
-            boolean check  = dfs(adj , start , end , visited);
-            ans.add(check);
+
+        // print adj list
+        System.out.println(adj + "indegree : " + Arrays.toString(in));
+        Queue<Integer> que = new LinkedList<>();
+
+        for(int i = 0 ; i < V;  i++){
+            if(in[i] == 0) que.add(i);
         }
+        if(que.size() == in.length){
+            List<Boolean> list = new ArrayList<>();
+            for(int i = 0 ; i < V ; i++){
+                list.add(false);
+            }
+            return list;
+        }
+        List<Integer> topo = new ArrayList<>();
+        HashMap<Integer ,Set<Integer>> map = new HashMap<>();
 
-        return ans;
-    }
-
-    public boolean dfs( List<List<Integer>> adj  , int start , int end , boolean[] visited){
-        visited[start] = true;
-
-        for(int neigh : adj.get(start)){
-            if(neigh == end) return true;
-            if(visited[neigh] == false){
-                if( dfs(adj , neigh , end , visited)){
-                    return true;
+        while(que.isEmpty() == false){
+            int vertex = que.remove();
+            topo.add(vertex);
+            for(int neigh : adj.get(vertex)){
+                map.putIfAbsent(neigh, new HashSet<>());
+                map.putIfAbsent(vertex, new HashSet<>());
+                 map.get(neigh).add(vertex);
+                for(int ele : map.get(vertex)){
+                     map.get(neigh).add(ele);
                 }
+                in[neigh]  -= 1;
+                if(in[neigh] == 0) que.add(neigh);
             }
         }
+       List<Boolean> ans = new ArrayList<>();
 
-        return false;
+       for(int[] query : queries){
+            int c1 = query[0];
+            int c2 = query[1];
+            if(map.get(c2).contains(c1)){
+                ans.add(true);
+            }
+            else{
+                ans.add(false);
+            }
+       }
+
+       return ans;
     }
 }
