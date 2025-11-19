@@ -1,23 +1,42 @@
-public class Solution {
+class Solution {
     public boolean isAlienSorted(String[] words, String order) {
-        int[] orderIndex = new int[26];
-        for (int i = 0; i < order.length(); i++)
-            orderIndex[order.charAt(i) - 'a'] = i;
-        System.out.println(Arrays.toString(orderIndex));
-        for (int i = 0; i < words.length - 1; i++) {
-            String w1 = words[i], w2 = words[i + 1];
-            int j = 0;
-            
-            for (; j < w1.length(); j++) {
-                if (j == w2.length()) return false;
-                if (w1.charAt(j) != w2.charAt(j)) {
-                    if (orderIndex[w1.charAt(j) - 'a'] > orderIndex[w2.charAt(j) - 'a']) {
-                        return false;
-                    }
-                    break;
-                }
-            }
+        int n = words.length;
+
+        int[] orders = new int[26];
+
+        for (int i = 0; i < 26; i++) {
+            orders[order.charAt(i) - 'a'] = i;
         }
+
+        for (int i = 1; i < n; i++) {
+            String w1 = words[i - 1];
+            String w2 = words[i];
+
+            int k = 0;
+            boolean decided = false;
+
+            while (k < w1.length() && k < w2.length()) {
+
+                char c1 = w1.charAt(k);
+                char c2 = w2.charAt(k);
+
+                if (c1 == c2) {
+                    k++;
+                    continue;
+                }
+
+                if (orders[c1 - 'a'] > orders[c2 - 'a'])
+                    return false;  // wrong order
+
+                decided = true;   // correct order for this pair
+                break;
+            }
+
+            // If not decided and prefix issue occurs
+            if (!decided && w1.length() > w2.length())
+                return false;
+        }
+
         return true;
     }
 }
