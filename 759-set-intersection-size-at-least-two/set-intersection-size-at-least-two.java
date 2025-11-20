@@ -1,43 +1,39 @@
 class Solution {
     public int intersectionSizeTwo(int[][] intervals) {
+        int n = intervals.length;
 
-        // Sort by end asc, start desc
-        Arrays.sort(intervals, (x, y) -> 
-            x[1] == y[1] ? y[0] - x[0] : x[1] - y[1]
-        );
+        // Sort by end ascending; if tie, by start descending
+        Arrays.sort(intervals, (vec1, vec2) -> {
+            if (vec1[1] != vec2[1]) 
+                return vec1[1] - vec2[1];
+            return vec2[0] - vec1[0];
+        });
 
-        // Store only chosen elements (optional: can use two ints)
-        List<Integer> chosen = new ArrayList<>();
+        int result = 0;
+        int first = -1;
+        int second = -1;
 
-        for (int[] arr : intervals) {
-            int a = arr[0];
-            int b = arr[1];
+        for (int i = 0; i < n; ++i) {
+            int l = intervals[i][0];
+            int r = intervals[i][1];
 
-            int size = chosen.size();
-
-            // Get last two chosen numbers
-            int last1 = size > 0 ? chosen.get(size - 1) : -1;
-            int last2 = size > 1 ? chosen.get(size - 2) : -1;
-
-            // Count how many of last two are inside [a, b]
-            int count = 0;
-            if (last1 >= a && last1 <= b) count++;
-            if (last2 >= a && last2 <= b) count++;
-
-            // Case 1: already have 2 → do nothing
-            if (count == 2) continue;
-
-            // Case 2: have only 1 → add b
-            if (count == 1) {
-                chosen.add(b);
+            // both points already in the interval
+            if (l <= first)
                 continue;
-            }
 
-            // Case 3: have 0 → add b-1 and b
-            chosen.add(b - 1);
-            chosen.add(b);
+            // if neither point is inside
+            if (l > second) {
+                result += 2;
+                second = r;
+                first = r - 1;
+            } else {
+                // only second is inside
+                result += 1;
+                first = second;
+                second = r;
+            }
         }
 
-        return chosen.size();
+        return result;
     }
 }
