@@ -10,9 +10,18 @@ class Solution {
         }
         
         System.out.println(Arrays.toString(pre));
-
         int sum = pre[n-1];
-       if(sum % 2 == 0) return n-1;
-       return 0;
+        int ans = 0;
+        for(int i = 0 ; i < n; i++){
+           int leftsum = pre[i];
+           int rightsum = sum - pre[i];
+           int diff = Math.abs(leftsum - rightsum);
+           System.out.println(leftsum + "  " + rightsum + "  " + diff);
+           if( diff % 2 == 0){
+            ans += 1;
+           }
+        }
+
+        return ans == 0 ? 0 : ans -1;
     }
 }
