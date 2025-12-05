@@ -11,7 +11,7 @@ class Solution {
             maxFreq = Math.max(maxFreq, freq[idx]);
 
             // window is invalid if replacements needed > k
-             if((right - left + 1) - maxFreq > k) {
+             while((right - left + 1) - maxFreq > k) {
                 freq[s.charAt(left) - 'A']--;
                 left++;
             }
