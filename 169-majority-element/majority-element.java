@@ -18,12 +18,6 @@ class Solution {
                 count--;
             }
         }
-        for(int ele : nums){
-            if(ele == cand){
-                return ele;
-            }
-        }
-
-        return -1;
+     return cand;
     }
 }
