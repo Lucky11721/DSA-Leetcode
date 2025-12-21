@@ -1,35 +1,35 @@
 class Solution {
     public int minDeletionSize(String[] strs) {
-        int rows = strs.length;          // number of rows
-        int cols = strs[0].length();     // number of columns
+        int n = strs.length;
+        int m = strs[0].length();
+        int ans = 0;
 
-        int deletion = 0;
-        boolean[] alreadySorted = new boolean[rows];
+        boolean[] alreadySorted = new boolean[n - 1];
 
-        for (int col = 0; col < cols; col++) {
-            boolean deleted = false;
+        for (int j = 0; j < m; j++) {
+            boolean bad = false;
 
-            // check if this column breaks lexicographical order
-            for (int row = 0; row < rows - 1; row++) {
-                if (!alreadySorted[row] &&
-                    strs[row].charAt(col) > strs[row + 1].charAt(col)) {
-                    deletion++;
-                    deleted = true;
+            // check column
+            for (int i = 1; i < n; i++) {
+                char curr = strs[i].charAt(j);
+                char prev = strs[i - 1].charAt(j);
+
+                if (!alreadySorted[i - 1] && prev > curr) {
+                    ans++;
+                    bad = true;
                     break;
                 }
             }
 
-            if (deleted) {
-                continue;
-            }
+            if (bad) continue;
 
-            // update alreadySorted status
-            for (int i = 0; i < rows - 1; i++) {
-                alreadySorted[i] = alreadySorted[i] ||
-                        (strs[i].charAt(col) < strs[i + 1].charAt(col));
+            // update sorted pairs
+            for (int i = 0; i < n - 1; i++) {
+                if (strs[i].charAt(j) < strs[i + 1].charAt(j)) {
+                    alreadySorted[i] = true;
+                }
             }
         }
-
-        return deletion;
+        return ans;
     }
 }
