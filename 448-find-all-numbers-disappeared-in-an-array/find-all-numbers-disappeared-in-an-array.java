@@ -6,7 +6,7 @@ class Solution {
         while(i < n){
             int ele = arr[i];
 
-            if(arr[i] == arr[arr[i]-1]){
+            if(ele == i+1 || arr[i] == arr[arr[i]-1]){
                 i++;
             }
             else{
