@@ -25,8 +25,8 @@ class Solution {
 
                             if(current.length() == 1) return true;
 
-                            if(index == current.length() -1 ){
-                               return helper(sb.toString() , 0 , map , new StringBuilder());
+                            if(index +1 == current.length() ){
+                             return helper(sb.toString() , 0 , map , new StringBuilder());
                             }
                           
                            
