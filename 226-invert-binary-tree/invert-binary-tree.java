@@ -21,11 +21,11 @@ class Solution {
 
     public void invert(TreeNode root){
         if(root == null) return;
-
+        swap(root);
         invert(root.left);
         invert(root.right);
 
-        swap(root);
+        
 
     }
     public void swap(TreeNode root){
