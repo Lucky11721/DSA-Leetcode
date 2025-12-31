@@ -1,34 +1,47 @@
 class Solution {
-    public int latestDayToCross(int row, int cols, int[][] cells) {
-        int[][] grid = new int[row][cols];
+    public int latestDayToCross(int row, int col, int[][] cells) {
+     
      
         int ans = 0;
-        for(int day = 0 ; day < cells.length ; day++){
-            int x = cells[day][0] -1;
-            int y = cells[day][1] -1;
-            grid[x][y] = 1;
-            boolean canReachEnd = false;
-            boolean[][] visited = new boolean[row][cols];
-            for(int col = 0 ; col < grid[0].length ; col++){
-                if(grid[0][col] == 0 &&visited[0][col] == false){
-                     if(dfs(grid , 0 , col , visited)){
-                      canReachEnd = true;
-                      break;
-                     }
-                     
-            
-                }
-              
 
+        int start =0;
+        int  end = cells.length-1;
+
+        while(start <= end){
+            int mid = start + (end - start)/2;
+
+            if(canCross(cells , row , col , mid)){
+                ans = mid+1;
+                start = mid+1;
             }
-             
-            if(!canReachEnd) return day;
-            
-           
+            else{
+                end = mid-1;
+            }
+
         }
+             
+      
           return ans;
     }
 
+    public boolean canCross(int[][] cells , int row , int col , int mid){
+        int[][] grid = new int[row][col];
+        boolean[][] visited = new boolean[row][col];
+        for(int i = 0 ; i <= mid ; i++ ){
+            int x = cells[i][0]-1;
+            int y = cells[i][1] -1;
+            grid[x][y] = 1;
+            visited[x][y] = true;
+        }
+        for(int cols = 0 ; cols < col ; cols++ ){
+            if(grid[0][cols] == 0 && visited[0][cols] == false){
+                if(dfs(grid , 0 ,cols , visited)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     public boolean dfs(int[][] grid ,int row , int col ,  boolean[][] visited){
         if(row == grid.length-1) return true;
 
