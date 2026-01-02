@@ -3,12 +3,15 @@ class Solution {
         int n = nums.length;
         int k = n/2;
 
-        int[] freq = new int[(int)Math.pow(10,4)];
-
+       HashSet<Integer> set = new HashSet<>();
         for(int i = 0 ; i < n ; i++){
             int ele = nums[i];
-            freq[ele]++;
-            if(freq[ele] > 1) return ele;
+
+            if(set.contains(ele)){
+                return ele;
+            }
+
+            set.add(ele);
         }
 
 
