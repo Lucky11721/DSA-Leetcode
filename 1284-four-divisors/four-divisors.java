@@ -15,17 +15,23 @@ class Solution {
 
 
     public boolean divisor(int n , int[] sum){
-        int count = 0;
+        int count = 2;
          sum[0] = 1 + n;
-        for(int i = 2 ; i < n ; i++){
+        for(int i = 2 ; i*i <=n ; i++){
             if(n %i == 0){
-                count++;
-                if(count > 2) return false;
+               if(n/i == i){
+                count +=1;
                 sum[0] += i;
+               }
+               else{
+                count += 2;
+                sum[0] = sum[0] + (i + (n/i));
+               }
             }
+            if(count > 4) return false;
         }
 
-      if(count == 2) return true;
+      if(count == 4) return true;
       return false;
     }
 }
