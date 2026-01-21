@@ -1,20 +1,22 @@
 class Solution {
     public int missingNumber(int[] nums) {
-        int n= nums.length;
+        
 
-        HashSet<Integer> set = new HashSet<>();
+        Arrays.sort(nums);
 
-        for(int ele : nums){
-            set.add(ele);
-        }
-
-        for(int ele : nums){
-            if( ele > 0 && !set.contains(ele -1)){
-                return ele -1;
+        int ans = -1;
+        for(int i = 1 ; i < nums.length; i++ ){
+            if(nums[i] - nums[i-1] > 1){
+                ans = nums[i] -1;
+                break;
             }
         }
-        return n;
 
+       if(ans == -1){
+        if(nums[0] > 0) return 0;
+        else return nums[nums.length-1]+1;
+       }
 
+       return ans;
     }
 }
