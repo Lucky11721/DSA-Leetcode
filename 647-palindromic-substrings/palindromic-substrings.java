@@ -3,6 +3,7 @@ class Solution {
         int n = s.length();
         int count = 0;
 
+        // bottom up dp
         boolean[][]  dp = new boolean[n+1][n+1];
 
         for(int L = 1 ; L <= n ; L++){
