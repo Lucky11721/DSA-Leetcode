@@ -1,34 +1,24 @@
 class Solution {
+    int count = 0;
     public int countSubstrings(String s) {
+        
+
         int n = s.length();
-        int count = 0;
 
-        // bottom up dp
-        boolean[][]  dp = new boolean[n+1][n+1];
-
-        for(int L = 1 ; L <= n ; L++){
-            for(int i = 0 ; i + L -1 < n ; i++){
-                int j = i + L -1;
-
-                if(i == j){
-                    dp[i][j] = true;
-                }
-                else if(i+1 == j){
-                    dp[i][j] = (s.charAt(i) == s.charAt(j));
-                }
-                else{
-                    dp[i][j] = (s.charAt(i) == s.charAt(j)) && dp[i+1][j-1];
-                }
-
-                if(dp[i][j]){
-                    count++;
-                }
-            }
+        for(int i = 0 ; i< n ; i++){
+            check(i , i , s , n); // for odd length palindrome
+            check(i , i+1 , s , n) ; // for even length palindrome
         }
 
-
         return count;
+    }
 
+    public void check(int i , int j , String s , int n){
 
+        while(i >= 0 && j < n  && s.charAt(i) == s.charAt(j)){
+            count++;
+            i--;
+            j++;
+        }
     }
 }
