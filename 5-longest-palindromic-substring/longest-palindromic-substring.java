@@ -1,31 +1,53 @@
 class Solution {
+    String ans;
+    Boolean[][] isPalDp;   // DP for palindrome validity
+    boolean[][] seen;     // DP to prune recursion states
+
     public String longestPalindrome(String s) {
         int n = s.length();
-        int maxlen = 1;
-        int start = 0;
+        if (n == 1) return s;
 
-        for (int i = 0; i < n; i++) {
-            for (int j = i; j < n; j++) {
+        ans = "";
+        isPalDp = new Boolean[n][n];
+        seen = new boolean[n][n];
 
-                if (checkpal(s, i, j) == true && (j - i + 1) > maxlen) {
-                    start = i;
-                    maxlen = j - i + 1;
-                }
-            }
+        helper(s, 0, n - 1);
+
+        if (ans.equals("")) {
+            return String.valueOf(s.charAt(0));
         }
-        return s.substring(start,start +  maxlen);
-
+        return ans;
     }
 
-    public boolean checkpal(String s, int i, int j) {
-        while (i < j) {
-            if (s.charAt(i) != s.charAt(j)) {
-                return false;
+    public void helper(String s, int i, int j) {
+        if (i > j) return;
+
+        // 🔥 Critical DP pruning (prevents TLE)
+        if (seen[i][j]) return;
+        seen[i][j] = true;
+
+        if (isValid(s, i, j)) {
+            if (j - i + 1 > ans.length()) {
+                ans = s.substring(i, j + 1);
             }
-            i++;
-            j--;
+            return;
         }
-        return true;
+
+        helper(s, i + 1, j);
+        helper(s, i, j - 1);
     }
 
+    public boolean isValid(String s, int i, int j) {
+        if (i >= j) return true;
+
+        if (isPalDp[i][j] != null) {
+            return isPalDp[i][j];
+        }
+
+        if (s.charAt(i) != s.charAt(j)) {
+            return isPalDp[i][j] = false;
+        }
+
+        return isPalDp[i][j] = isValid(s, i + 1, j - 1);
+    }
 }
