@@ -1,69 +1,63 @@
 class Solution {
     class Pair{
         int node;
-        int distance;
-
-        Pair(int node , int distance){
+        int time;
+        Pair(int node , int time){
             this.node = node;
-            this.distance = distance;
+            this.time = time;
         }
     }
     public int networkDelayTime(int[][] times, int n, int k) {
-        List<List<Pair>> adj = new ArrayList<>();
+        
+        List<List<Pair>> graph = new ArrayList<>();
 
-        for(int i = 0 ; i <= n ; i++){
-            adj.add(new ArrayList<>());
+        for(int i = 0 ;i <= n ;i++){
+            graph.add(new ArrayList<>());
         }
-        for(int[] edge : times){
-            int source =edge[0];
-            int target = edge[1];
-            int distance = edge[2];
 
-            adj.get(source).add(new Pair(target , distance));
-        }
-        for(int i = 0 ; i < adj.size() ; i++){
-            for(Pair p : adj.get(i)){
-                System.out.println(p.node + " " + p.distance);
-            }
-        }
-        int[] distance = new int[n+1];
-        Arrays.fill(distance , Integer.MAX_VALUE);
+        for(int[] time : times){
+            int u = time[0];
+            int v = time[1];
+            int t = time[2];
 
-        PriorityQueue<Pair> minHeap = new PriorityQueue<>((a,b) -> Integer.compare(a.distance , b.distance));
+            graph.get(u).add(new Pair(v ,t));
+
+
+        }
+
+        int[] dist = new int[n+1];
+
+        Arrays.fill(dist , Integer.MAX_VALUE);
+
+        PriorityQueue<Pair> minHeap = new PriorityQueue<>((a,b) -> Integer.compare(a.time,b.time));
+
         minHeap.add(new Pair(k , 0));
+        dist[k] = 0;
 
-        while(!minHeap.isEmpty()){
-            Pair p = minHeap.remove();
-            int src = p.node;
-            int dist = p.distance;
-            if(dist > distance[src]) continue;
+        while(minHeap.isEmpty() == false){
+            Pair p  = minHeap.remove();
+            int node = p.node;
+            int time = p.time;
 
-            for(Pair neighbour : adj.get(src)){
-                int child = neighbour.node;
-                int child_distance = neighbour.distance;
 
-                int total_distance = dist + child_distance;
-                if(total_distance < distance[child]){
-                    distance[child] = total_distance;
-                    minHeap.add(new Pair(child , total_distance));
+            for(Pair pair : graph.get(node) ){
+                int totalTime = time + pair.time;
+
+                if(totalTime < dist[pair.node]){
+                    dist[pair.node] = totalTime;
+                    minHeap.add(new Pair(pair.node , totalTime));
                 }
             }
-        }
-        System.out.println(Arrays.toString(distance));
-        int ans = -500;
+                   }
+  int ans = -1;
         for(int i =1 ; i < n+1 ; i++){
             if(i != k){
                 
-                ans = Math.max(ans , distance[i]);
+                ans = Math.max(ans , dist[i]);
             }
         }
 
-
-        if(ans == Integer.MAX_VALUE) return -1;
-
-
-        return ans;
-
+        return ans == Integer.MAX_VALUE ? -1 : ans;
 
     }
 }
