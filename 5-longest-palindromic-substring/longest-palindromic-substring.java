@@ -1,53 +1,43 @@
 class Solution {
+
     String ans;
-    Boolean[][] isPalDp;   // DP for palindrome validity
-    boolean[][] seen;     // DP to prune recursion states
 
+    
+
+        
     public String longestPalindrome(String s) {
-        int n = s.length();
-        if (n == 1) return s;
+      if (s == null || s.length() < 1)
+            return "";
 
-        ans = "";
-        isPalDp = new Boolean[n][n];
-        seen = new boolean[n][n];
+        int start = 0;
+        int end = 0;
 
-        helper(s, 0, n - 1);
+        for (int i = 0; i < s.length(); i++) {
 
-        if (ans.equals("")) {
-            return String.valueOf(s.charAt(0));
-        }
-        return ans;
-    }
+            int len1 = expand(s, i, i);       // odd length
+            int len2 = expand(s, i, i + 1);   // even length
 
-    public void helper(String s, int i, int j) {
-        if (i > j) return;
+            int len = Math.max(len1, len2);
 
-        // 🔥 Critical DP pruning (prevents TLE)
-        if (seen[i][j]) return;
-        seen[i][j] = true;
-
-        if (isValid(s, i, j)) {
-            if (j - i + 1 > ans.length()) {
-                ans = s.substring(i, j + 1);
+            if (len > end - start) {
+                start = i - (len - 1) / 2;
+                end = i + len / 2;
             }
-            return;
         }
 
-        helper(s, i + 1, j);
-        helper(s, i, j - 1);
+        return s.substring(start, end + 1);
     }
 
-    public boolean isValid(String s, int i, int j) {
-        if (i >= j) return true;
+    private int expand(String s, int left, int right) {
 
-        if (isPalDp[i][j] != null) {
-            return isPalDp[i][j];
+        while (left >= 0 &&
+               right < s.length() &&
+               s.charAt(left) == s.charAt(right)) {
+
+            left--;
+            right++;
         }
 
-        if (s.charAt(i) != s.charAt(j)) {
-            return isPalDp[i][j] = false;
-        }
-
-        return isPalDp[i][j] = isValid(s, i + 1, j - 1);
+        return right - left - 1;
     }
 }
