@@ -18,6 +18,7 @@ class Solution {
     }
 
     public void solve(char[] arr , StringBuilder s , int n , int k ){
+        if(list.size() == k) return;
         if(s.length() == n){
             list.add(s.toString());
             return;
